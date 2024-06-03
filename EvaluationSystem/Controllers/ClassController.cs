@@ -87,15 +87,14 @@ namespace EvaluationSystem.Controllers
         {
             if (ModelState.IsValid)
             {
-                int a = 0;
-
                 Class _class = new Class();
+                _class.Note = model.Note;
                 _class.Code = model.Code;
                 _class.Name = model.Name;
                 _class.CreatedDate = DateTime.Now;
                 _class.MajorsId = model.MajorsId;
                 _classRepository.Add(_class);
-                if (_class.Id > 0)
+                if (_class.Id>0)
                 {
                     return RedirectToAction("Index");
                 }

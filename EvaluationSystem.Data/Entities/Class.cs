@@ -13,5 +13,6 @@ namespace EvaluationSystem.Data.Entities
         public string Code { get; set; }
         public int? MajorsId { get; set; }
         public Majors Majors { get; set; }
+        public string Note { get; set; }
     }
 }
