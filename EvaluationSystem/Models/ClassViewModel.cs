@@ -26,5 +26,6 @@ namespace EvaluationSystem.Models
         public string MajorsCode { get; set; }
         public SelectList MajorsList { get; set; } 
         public int a { get; set; }
+        public int b { get; set; }
     }
 }

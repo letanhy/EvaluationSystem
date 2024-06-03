@@ -87,6 +87,7 @@ namespace EvaluationSystem.Controllers
         {
             if (ModelState.IsValid)
             {
+                int a = 0;
                 Class _class = new Class();
                 _class.Code = model.Code;
                 _class.Name = model.Name;
