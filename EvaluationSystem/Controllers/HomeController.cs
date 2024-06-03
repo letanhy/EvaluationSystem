@@ -11,6 +11,7 @@ namespace EvaluationSystem.Controllers
         // GET: Home
         public ActionResult Index()
         {
+            int a = 0;
             return View();
         }
     }
