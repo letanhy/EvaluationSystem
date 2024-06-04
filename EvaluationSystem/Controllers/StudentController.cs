@@ -36,7 +36,7 @@ namespace EvaluationSystem.Controllers
                 MajorsId = x.Class?.MajorsId,
                 MajorsName = x.Class?.Majors?.Name,
                 MajorsCode = x.Class?.Majors?.Code,
-            });
+            }).ToList();
             return View(models);
         }
         public ActionResult Details(int Id)

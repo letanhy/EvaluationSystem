@@ -32,8 +32,8 @@
                             <td>@item.Name</td>
                             <td>@(item.MajorsCode +" | "+item.MajorsName)</td>
                             <td>
-                                <a href="/Class/Edit/@item.Id">Chỉnh sửa</a> | 
-                                <a href="/Class/Delete/@item.Id">Xóa</a> |
+                                <a href="@Url.Action("Edit","Class", new {Id= item.Id })">Chỉnh sửa</a> | 
+                                <a href="@Url.Action("Delete", "Class", new { Id = item.Id})">Xóa</a> |
                                 <a href="@Url.Action("Details","Class", new {Id= item.Id })">Chi tiết</a>
                             </td>
                         </tr>

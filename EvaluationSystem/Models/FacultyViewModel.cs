@@ -20,6 +20,7 @@ namespace EvaluationSystem.Models
         public DateTime? CreatedDate { get; set; }
         [Display(Name = "Ngày cập nhật")]
         public DateTime? ModifiedDate { get; set; }
+        public bool? IsDeleted { get; set; }
 
     }
 }

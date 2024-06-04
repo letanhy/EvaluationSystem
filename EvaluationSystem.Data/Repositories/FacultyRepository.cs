@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EvaluationSystem.Data.Interfaces;
+using System.Data.SqlClient;
+
 namespace EvaluationSystem.Data.Repositories
 {
     public class FacultyRepository : IFacultyRepository 
@@ -13,14 +15,21 @@ namespace EvaluationSystem.Data.Repositories
         EvaluationSystemDbContext context = new EvaluationSystemDbContext();
         public int Add(Faculty model)
         {
-            context.Faculty.Add(model);
-            context.SaveChanges();
+            context.Database.ExecuteSqlCommand($"Sp_Faculty_Add @Name = {model.Name}, @Code = {model.Code}, @CreatedDate = {model.CreatedDate}");
             return model.Id;
+            //context.Faculty.Add(model);
+            //context.SaveChanges();
+            //return model.Id;
         }
         public void Update(Faculty model)
         {
-            context.Entry(model).State = EntityState.Modified;
-            context.SaveChanges();
+            
+            var IdPr = new SqlParameter("@Id", model.Id);
+            var namePr = new SqlParameter("@Name", model.Name);
+            var CodePr = new SqlParameter("@Code", model.Code);
+            var ModifiedDatePr = new SqlParameter("@ModifiedDate", model.ModifiedDate);
+            context.Database.ExecuteSqlCommand("UpdateFaculty @Id, @Name, @Code, @ModifiedDate", IdPr, namePr, CodePr, ModifiedDatePr);
+          
         }
         public void Delete(int Id)
         {
@@ -42,11 +51,13 @@ namespace EvaluationSystem.Data.Repositories
         }
         public IEnumerable<Faculty> ListAll()
         {
+
             return context.Faculty;
         }
         public IEnumerable<Faculty> ListAllInfo()
         {
-            return context.Faculty.Where(x => x.IsDeleted != true);
+            var result = context.Database.SqlQuery<Faculty>("GetALL").ToList();
+            return result;
         }
         
         public Faculty GetById(int Id)

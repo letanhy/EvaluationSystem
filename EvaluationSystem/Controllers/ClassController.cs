@@ -88,7 +88,6 @@ namespace EvaluationSystem.Controllers
             if (ModelState.IsValid)
             {
                 Class _class = new Class();
-                _class.Note = model.Note;
                 _class.Code = model.Code;
                 _class.Name = model.Name;
                 _class.CreatedDate = DateTime.Now;
@@ -134,7 +133,9 @@ namespace EvaluationSystem.Controllers
                 if (_class != null)
                 {
                     _class.Name = model.Name;
-                    _class.CreatedDate = model.CreatedDate;
+                    _class.Code = model.Code;
+                    _class.MajorsId = model.MajorsId;
+                    _class.ModifiedDate = DateTime.Now;
                     _classRepository.Update(_class);
                     return RedirectToAction("Index");
                 }

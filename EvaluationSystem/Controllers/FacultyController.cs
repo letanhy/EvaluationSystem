@@ -5,6 +5,7 @@ using EvaluationSystem.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -21,6 +22,7 @@ namespace EvaluationSystem.Controllers
         // GET: Faculty
         public ActionResult Index()
         {
+
             var facultyListDb = _facultyRepository.ListAllInfo();
             var models = facultyListDb.Select(x => new FacultyViewModel
             {
@@ -44,16 +46,15 @@ namespace EvaluationSystem.Controllers
         {
             if (ModelState.IsValid)
             {
-                int a = 54;
-                //Faculty faculty = new Faculty();
-                //faculty.Name = models.Name;
-                //faculty.Code = models.Code;
-                //faculty.CreatedDate = DateTime.Now;
-                //_facultyRepository.Add(faculty);
-                //if (faculty.Id > 0)
-                //{
-                //    return RedirectToAction("Index");
-                //}
+                Faculty faculty = new Faculty();
+                faculty.Name = models.Name;
+                faculty.Code = models.Code;
+                faculty.CreatedDate = DateTime.Now;
+                _facultyRepository.Add(faculty);
+                if (faculty.Id > 0)
+                {
+                    return RedirectToAction("Index");
+                }
             }
             return View(models);
         }
