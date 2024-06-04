@@ -44,7 +44,7 @@ namespace EvaluationSystem.Controllers
         {
             if (ModelState.IsValid)
             {
-
+                int a = 54;
                 //Faculty faculty = new Faculty();
                 //faculty.Name = models.Name;
                 //faculty.Code = models.Code;
