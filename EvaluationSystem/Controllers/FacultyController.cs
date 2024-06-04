@@ -1,9 +1,11 @@
-﻿using EvaluationSystem.Data.Entities;
+﻿using EvaluationSystem.Data;
+using EvaluationSystem.Data.Entities;
 using EvaluationSystem.Data.Interfaces;
 using EvaluationSystem.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -15,10 +17,12 @@ namespace EvaluationSystem.Controllers
         public FacultyController(IFacultyRepository facultyRepository)
         {
             _facultyRepository = facultyRepository;
+            
         }
         // GET: Faculty
         public ActionResult Index()
         {
+
             var facultyListDb = _facultyRepository.ListAllInfo();
             var models = facultyListDb.Select(x => new FacultyViewModel
             {

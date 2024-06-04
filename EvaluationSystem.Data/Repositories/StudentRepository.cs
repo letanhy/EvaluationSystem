@@ -49,7 +49,7 @@ namespace EvaluationSystem.Data.Repositories
 
         public IEnumerable<Student> ListAllInfo()
         {
-            return context.Students.Include(x => x.Class.Majors).Where(x => x.IsDeleted != true).ToList();
+            return context.Students.Include(x => x.Class.Majors).Where(x => x.IsDeleted != true);
         }
 
         public void Update(Student student)
