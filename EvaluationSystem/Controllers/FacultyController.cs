@@ -1,4 +1,5 @@
-﻿using EvaluationSystem.Data.Entities;
+﻿using EvaluationSystem.Data;
+using EvaluationSystem.Data.Entities;
 using EvaluationSystem.Data.Interfaces;
 using EvaluationSystem.Models;
 using System;
@@ -15,6 +16,7 @@ namespace EvaluationSystem.Controllers
         public FacultyController(IFacultyRepository facultyRepository)
         {
             _facultyRepository = facultyRepository;
+            
         }
         // GET: Faculty
         public ActionResult Index()
@@ -42,15 +44,16 @@ namespace EvaluationSystem.Controllers
         {
             if (ModelState.IsValid)
             {
-                Faculty faculty = new Faculty();
-                faculty.Name = models.Name;
-                faculty.Code = models.Code;
-                faculty.CreatedDate = DateTime.Now;
-                _facultyRepository.Add(faculty);
-                if (faculty.Id > 0)
-                {
-                    return RedirectToAction("Index");
-                }
+
+                //Faculty faculty = new Faculty();
+                //faculty.Name = models.Name;
+                //faculty.Code = models.Code;
+                //faculty.CreatedDate = DateTime.Now;
+                //_facultyRepository.Add(faculty);
+                //if (faculty.Id > 0)
+                //{
+                //    return RedirectToAction("Index");
+                //}
             }
             return View(models);
         }
