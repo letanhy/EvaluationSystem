@@ -23,7 +23,7 @@ namespace EvaluationSystem.Controllers
         // GET: Student
         public ActionResult Index()
         {
-            var studentListDb = _studentRepository.ListAllInfo();
+            var studentListDb = _studentRepository.ListAll();
             var models = studentListDb.Select(x => new StudentViewModel
             {
                 Id = x.Id,
@@ -31,12 +31,15 @@ namespace EvaluationSystem.Controllers
                 Age = x.Age,
                 Code = x.Code,
                 ClassId = x.ClassId,
-                ClassName = x.Class?.Name,
-                ClassCode = x.Class?.Code,
-                MajorsId = x.Class?.MajorsId,
-                MajorsName = x.Class?.Majors?.Name,
-                MajorsCode = x.Class?.Majors?.Code,
-            }).ToList();
+                ClassName = x.Class.Name,
+                ClassCode = x.Class.Code,
+                MajorsId = x.Class.MajorsId,
+                MajorsName = x.Class.Majors.Name,
+                MajorsCode = x.Class.Majors.Code,
+            }).OrderBy(x=>x.Age).ToList();
+
+            var a = studentListDb.OrderByDescending(x=> x.Age).FirstOrDefault();
+            ViewBag.StudentA = a.FullName;
             return View(models);
         }
         public ActionResult Details(int Id)

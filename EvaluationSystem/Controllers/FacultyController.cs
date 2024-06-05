@@ -51,19 +51,16 @@ namespace EvaluationSystem.Controllers
                 faculty.Code = models.Code;
                 faculty.CreatedDate = DateTime.Now;
                 _facultyRepository.Add(faculty);
-                if (faculty.Id > 0)
-                {
-                    return RedirectToAction("Index");
-                }
+                 return RedirectToAction("Index");
             }
             return View(models);
         }
         public ActionResult Edit(int Id)
         {
             var faculty = _facultyRepository.GetById(Id);
-            FacultyViewModel model = new FacultyViewModel();
             if (faculty != null)
             {
+                FacultyViewModel model = new FacultyViewModel();    
                 model.Id = faculty.Id;
                 model.CreatedDate = faculty.CreatedDate;
                 model.Code = faculty.Code;

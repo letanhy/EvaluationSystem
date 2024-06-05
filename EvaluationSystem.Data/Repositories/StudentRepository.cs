@@ -42,9 +42,9 @@ namespace EvaluationSystem.Data.Repositories
             return context.Students.SingleOrDefault(x => x.Id == Id);
         }
 
-        public IEnumerable<Student> ListAll()
+        public IQueryable<Student> ListAll()
         {
-            return context.Students.Where(x => x.IsDeleted != true).ToList();
+            return context.Students.Where(x => x.IsDeleted != true);
         }
 
         public IEnumerable<Student> ListAllInfo()
