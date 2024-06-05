@@ -36,13 +36,16 @@ namespace EvaluationSystem.Controllers
         }
         public ActionResult Details(int Id)
         {
-            var majors = _majorsRepository.GetById(Id);
+            var majors = _majorsRepository.GetInfoById(Id);
             var model = new MajorsViewModel();
             if (majors != null)
             {
                 model.Name = majors.Name;
                 model.Code = majors.Code;
                 model.CreatedDate = majors.CreatedDate;
+                model.FacultyId = majors.FacultyId;
+                model.FacultyName = majors.Faculty?.Name;
+                model.FacultyCode = majors.Faculty?.Code;
                 return View(model);
             }
             return RedirectToAction("Index");

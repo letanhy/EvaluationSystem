@@ -39,7 +39,7 @@
                             <td>
                                 <a href="@Url.Action("Edit","Student", new {Id1 = item.Id})">Chinh sua</a>
                                 |
-                                <a href="/Student/Delete/@item.Id">Xóa</a>
+                                <a href="@Url.Action("Delete", "Student", new {Id = item.Id})">Xóa</a>
                                 |
                                 <a href="@Url.Action("Details","Student", new {Id = item.Id})">Chi tiết</a>
                             </td>

@@ -12,7 +12,7 @@ namespace EvaluationSystem.Data.Interfaces
         IEnumerable<Faculty> ListAll();
         Faculty GetById(int Id);
         Faculty GetInfoById(int Id);
-        int Add(Faculty faculty);
+        void Add(Faculty faculty);
         void Update(Faculty faculty);
         void Delete(int Id);
         void DeleteRs(int Id);
