@@ -52,9 +52,9 @@ namespace EvaluationSystem.Data.Repositories
             return context.Majors.Include(x=>x.Faculty).Where(x => x.IsDeleted != true);
         }
 
-        public Class GetInfoById(int Id)
+        public Majors GetInfoById(int Id)
         {
-            throw new NotImplementedException();
+            return context.Majors.Include(x => x.Faculty).SingleOrDefault(x => x.Id == Id);
         }
 
         public void Delete(Majors majors)

@@ -17,6 +17,6 @@ namespace EvaluationSystem.Data.Interfaces
         void DeleteRs(int Id);
         void Delete(Majors majors);
         IEnumerable<Majors> ListAllInfo();
-        Class GetInfoById(int Id);
+        Majors GetInfoById(int Id);
     }
 }

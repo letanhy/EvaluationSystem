@@ -13,10 +13,14 @@ namespace EvaluationSystem.Data.Repositories
     public class FacultyRepository : IFacultyRepository 
     {
         EvaluationSystemDbContext context = new EvaluationSystemDbContext();
-        public int Add(Faculty model)
+        public void Add(Faculty model)
         {
-            context.Database.ExecuteSqlCommand($"Sp_Faculty_Add @Name = {model.Name}, @Code = {model.Code}, @CreatedDate = {model.CreatedDate}");
-            return model.Id;
+
+            var namePr = new SqlParameter("@Name", model.Name);
+            var CodePr = new SqlParameter("@Code", model.Code);
+            var CreatedDatePr = new SqlParameter("@CreatedDate", model.CreatedDate);
+            context.Database.ExecuteSqlCommand("EXEC Sp_Faculty_Add @Name, @Code, @CreatedDate", namePr, CodePr, CreatedDatePr);
+
             //context.Faculty.Add(model);
             //context.SaveChanges();
             //return model.Id;
