@@ -27,7 +27,6 @@ namespace EvaluationSystem.Models
         public int? MajorsId { get; set; }
         public string MajorsName { get; set; }
         public string MajorsCode { get; set; }
-
         public SelectList ClassList { get; set; }
 
     }

@@ -46,6 +46,7 @@ namespace EvaluationSystem.Controllers
                 model.FacultyId = majors.FacultyId;
                 model.FacultyName = majors.Faculty?.Name;
                 model.FacultyCode = majors.Faculty?.Code;
+
                 return View(model);
             }
             return RedirectToAction("Index");

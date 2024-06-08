@@ -61,5 +61,27 @@ namespace EvaluationSystem.Data.Repositories
         {
             return context.Students.Include(x => x.Class.Majors).SingleOrDefault(x => x.Id == Id);
         }
+
+        public int GetCount()
+        {
+            return context.Students.Count(x => x.IsDeleted != true);
+        }
+
+        public int CountStudent(int classId)
+        {
+            return context.Students.Count(x => x.ClassId == classId && x.IsDeleted != true);
+        }
+
+        public IQueryable<Student> GetStudents(int classId)
+        {
+            return context.Students.Where(x => x.ClassId == classId && x.IsDeleted != true);
+        }
+
+        public IQueryable<Student> SearchStudents(string searchTerm)
+        {
+            return context.Students
+                .Where(x => (string.IsNullOrEmpty(searchTerm) || x.FullName.Contains(searchTerm) || x.Code.Contains(searchTerm))
+                && x.IsDeleted != true);
+        }
     }
 }

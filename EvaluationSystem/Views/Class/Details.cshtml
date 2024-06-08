@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    int i = 0;
 }
 
 <div class="container-xxl flex-grow-1 container-p-y">
@@ -35,6 +36,10 @@
                                 <td>Tên ngành</td>
                                 <td>@Model.MajorsName</td>
                             </tr>
+                            <tr>
+                                <td>Sỉ số sinh viên</td>
+                                <td>@Model.CountStudent</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -42,4 +47,41 @@
             </div>
         </div>
     </div>
+    <div class="card">
+        <h5 class="card-header">Danh sách lớp</h5>
+        <div class="table-responsive text-nowrap">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Họ và Tên</th>
+                        <th>Tuổi</th>
+                        <th>MSSV</th>
+                        <th></th>
+
+                    </tr>
+                </thead>
+                <tbody class="table-border-bottom-0">
+                    @foreach (var item in Model.StudentsList)
+                    {
+                        i = i + 1;
+                        <tr>
+                            <td>@i</td>
+                            <td>@item.FullName</td>
+                            <td>@item.Age</td>
+                            <td>@item.Code</td>
+                            <td>
+                                <a href="@Url.Action("Edit","Student", new {Id1 = item.Id})">Cập nhật</a>
+                                |
+                                <a href="@Url.Action("Delete", "Student", new {Id = item.Id})">Xóa</a>
+                                |
+                                <a href="@Url.Action("Details","Student", new {Id = item.Id})">Chi tiết</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 </div>

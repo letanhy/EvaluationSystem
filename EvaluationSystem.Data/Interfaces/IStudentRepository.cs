@@ -17,5 +17,9 @@ namespace EvaluationSystem.Data.Interfaces
         void Delete(int Id);
         void DeleteRs(int Id);
         IEnumerable<Student> ListAllInfo();
+        int GetCount();
+        int CountStudent(int ClassId);
+        IQueryable<Student> GetStudents(int classId);
+        IQueryable<Student> SearchStudents(string searchTerm);
     }
 }

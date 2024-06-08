@@ -14,10 +14,12 @@ namespace EvaluationSystem.Controllers
     {
         IClassRepository _classRepository;
         IMajorsRepository _majorsRepository;
-        public ClassController(IClassRepository classRepository, IMajorsRepository majorsRepository)
+        IStudentRepository _studentRepository;
+        public ClassController(IClassRepository classRepository, IMajorsRepository majorsRepository, IStudentRepository studentRepository)
         {
             _classRepository = classRepository;
             _majorsRepository = majorsRepository;
+            _studentRepository = studentRepository;
         }
         public ActionResult Index()
         {
@@ -46,6 +48,22 @@ namespace EvaluationSystem.Controllers
                 model.CreatedDate = _class.CreatedDate;
                 model.MajorsName = _class.Majors?.Name;
                 model.MajorsCode = _class.Majors?.Code;
+                model.CountStudent = _studentRepository.CountStudent(Id);
+                model.StudentsList = _studentRepository
+                    .GetStudents(Id)
+                    .Select(x => new StudentViewModel
+                    {
+                        Id = x.Id,
+                        FullName = x.FullName,
+                        Age = x.Age,
+                        Code = x.Code,
+                        ClassId = x.ClassId,
+                        ClassName = x.Class.Name,
+                        ClassCode = x.Class.Code,
+                        MajorsId = x.Class.MajorsId,
+                        MajorsName = x.Class.Majors.Name,
+                        MajorsCode = x.Class.Majors.Code,
+                    }).ToList();
                 return View(model);
             }
             return RedirectToAction("Index");
