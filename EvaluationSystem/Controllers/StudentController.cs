@@ -42,6 +42,24 @@ namespace EvaluationSystem.Controllers
             ViewBag.StudentA = a.FullName;
             return View(models);
         }
+        public ActionResult Search(string searchTerm)
+        {
+            var students = _studentRepository.SearchStudents(searchTerm);
+            var models = students.Select(x => new StudentViewModel
+            {
+                Id = x.Id,
+                FullName = x.FullName,
+                Age = x.Age,
+                Code = x.Code,
+                ClassId = x.ClassId,
+                ClassName = x.Class.Name,
+                ClassCode = x.Class.Code,
+                MajorsId = x.Class.MajorsId,
+                MajorsName = x.Class.Majors.Name,
+                MajorsCode = x.Class.Majors.Code,
+            }).ToList();
+            return View("Index", models);
+        }
         public ActionResult Details(int Id)
         {
             var student = _studentRepository.GetInfoById(Id);
@@ -102,6 +120,7 @@ namespace EvaluationSystem.Controllers
                 student.Code = models.Code;
                 student.ClassId = models.ClassId;
                 student.CreatedDate = DateTime.Now;
+                student.IsDeleted = false;
                 _studentRepository.Add(student);
                 if (student.Id > 0)
                 {
@@ -134,7 +153,6 @@ namespace EvaluationSystem.Controllers
             {
                 return RedirectToAction("Index");
             }
-            
         }
         [HttpPost]
         public ActionResult Edit(StudentViewModel model)
@@ -156,7 +174,6 @@ namespace EvaluationSystem.Controllers
             GetData(model);
             return View(model);
         }
-            
         public ActionResult Delete(int Id)
         {
             var student = _studentRepository.GetById(Id);

@@ -6,8 +6,21 @@
     int i = 0;
 }
 <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Tables /</span> Basic Tables</h4>
 
+    <div class="navbar-nav align-items-center">
+        <div class="nav-item d-flex align-items-center">
+            <form class="navbar-form navbar-right" role="search" action="@Url.Action("Search", "Student")" method="get">
+                <div class="form-group">
+                    <input type="text" name="searchTerm"
+                           class="form-control border-0 shadow-none"
+                           placeholder="Tên hoặc mã số sinh viên"
+                           aria-label="Search..." />
+                </div>
+                
+            </form>
+        </div>
+    </div>
+    <h3></h3>
     <!-- Basic Bootstrap Table -->
     <div class="card">
         <h5 class="card-header">Danh sách sinh viên</h5>
