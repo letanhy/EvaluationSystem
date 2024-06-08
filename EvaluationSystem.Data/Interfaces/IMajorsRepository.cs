@@ -18,5 +18,6 @@ namespace EvaluationSystem.Data.Interfaces
         void Delete(Majors majors);
         IEnumerable<Majors> ListAllInfo();
         Majors GetInfoById(int Id);
+        int GetCount();
     }
 }

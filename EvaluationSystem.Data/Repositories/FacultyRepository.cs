@@ -10,7 +10,7 @@ using System.Data.SqlClient;
 
 namespace EvaluationSystem.Data.Repositories
 {
-    public class FacultyRepository : IFacultyRepository 
+    public class FacultyRepository : IFacultyRepository
     {
         EvaluationSystemDbContext context = new EvaluationSystemDbContext();
         public void Add(Faculty model)
@@ -77,6 +77,11 @@ namespace EvaluationSystem.Data.Repositories
         {
             var model = context.Faculty.SingleOrDefault(x => x.Id == Id);
             return model;
+        }
+
+        public int GetCount()
+        {
+            return context.Faculty.Count(x => x.IsDeleted != true);
         }
     }
 }

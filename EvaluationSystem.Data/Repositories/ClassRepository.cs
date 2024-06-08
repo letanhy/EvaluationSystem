@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using EvaluationSystem.Data.Interfaces;
 namespace EvaluationSystem.Data.Repositories
 {
-    public class ClassRepository : IClassRepository 
+    public class ClassRepository : IClassRepository
     {
         EvaluationSystemDbContext context = new EvaluationSystemDbContext();
         public int Add(Class model)
@@ -61,6 +61,11 @@ namespace EvaluationSystem.Data.Repositories
         {
             var model = context.Classes.Include(x=>x.Majors).SingleOrDefault(x => x.Id == Id);
             return model;
+        }
+
+        public int GetCount()
+        {
+            return context.Classes.Count(x => x.IsDeleted != true);
         }
     }
 }
