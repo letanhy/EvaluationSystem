@@ -19,5 +19,6 @@ namespace EvaluationSystem.Data.Interfaces
         void Delete(int Id);
         void DeleteRs(int Id);
         void Delete(Class _class);
+        int GetCount();
     }
 }

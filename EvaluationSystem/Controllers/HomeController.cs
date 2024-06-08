@@ -12,16 +12,26 @@ namespace EvaluationSystem.Controllers
 
         IStudentRepository _studentRepository;
         IClassRepository _classRepository;
-        public HomeController(IStudentRepository studentRepository, IClassRepository classRepository)
+        IMajorsRepository _majorsRepository;
+        IFacultyRepository _facultyRepository;
+        public HomeController(IFacultyRepository facultyRepository, IStudentRepository studentRepository, IClassRepository classRepository, IMajorsRepository majorsRepository)
         {
             _studentRepository = studentRepository;
             _classRepository = classRepository;
+            _majorsRepository = majorsRepository;
+            _facultyRepository = facultyRepository;
         }
         // GET: Home
         public ActionResult Index()
         {
-            var count = _studentRepository.GetCount();
-            ViewBag.Count = count;
+            var countClass = _classRepository.GetCount();
+            var countStudents = _studentRepository.GetCount();
+            var countMajors = _majorsRepository.GetCount();
+            var countFaculty = _facultyRepository.GetCount();
+            ViewBag.CountStudents = countStudents;
+            ViewBag.CountClass = countClass;
+            ViewBag.CountMajors = countMajors;
+            ViewBag.CountFaculty = countFaculty;
             return View();
         }
 

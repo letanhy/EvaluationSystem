@@ -62,5 +62,9 @@ namespace EvaluationSystem.Data.Repositories
             context.Majors.Remove(majors);
             context.SaveChanges();
         }
+        public int GetCount()
+        {
+            return context.Majors.Count(x => x.IsDeleted != true);
+        }
     }
 }
