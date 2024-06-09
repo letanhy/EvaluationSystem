@@ -37,9 +37,9 @@ namespace EvaluationSystem.Controllers
         }
 
         // GET: Class/Details/5
-        public ActionResult Details(int Id1)
+        public ActionResult Details(int Id)
         {
-            var _class = _classRepository.GetInfoById(Id1);
+            var _class = _classRepository.GetInfoById(Id);
             var model = new ClassViewModel();
             if (_class != null)
             {
@@ -48,9 +48,9 @@ namespace EvaluationSystem.Controllers
                 model.CreatedDate = _class.CreatedDate;
                 model.MajorsName = _class.Majors?.Name;
                 model.MajorsCode = _class.Majors?.Code;
-                model.CountStudent = _studentRepository.CountStudent(Id1);
+                model.CountStudent = _studentRepository.CountStudent(Id);
                 model.StudentsList = _studentRepository
-                    .GetStudents(Id1)
+                    .GetStudents(Id)
                     .Select(x => new StudentViewModel
                     {
                         Id = x.Id,
