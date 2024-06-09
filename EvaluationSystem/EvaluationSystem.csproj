@@ -177,6 +177,8 @@
     <Content Include="assets\js\ui-modals.js" />
     <Content Include="assets\js\ui-popover.js" />
     <Content Include="assets\js\ui-toasts.js" />
+    <Content Include="assets\main.css" />
+    <Content Include="assets\main.js" />
     <Content Include="assets\vendor\css\core.css" />
     <Content Include="assets\vendor\css\pages\page-account-settings.css" />
     <Content Include="assets\vendor\css\pages\page-auth.css" />
@@ -200,6 +202,8 @@
     <Content Include="assets\vendor\libs\popper\popper.js" />
     <Content Include="Content\Site.css" />
     <Content Include="Global.asax" />
+    <Content Include="Views\Home\_ClosePopup.cshtml" />
+    <None Include="Views\Shared\_PopupLayout.cshtml" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
