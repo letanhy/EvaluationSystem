@@ -20,10 +20,6 @@ namespace EvaluationSystem.Data.Repositories
             var createdDatePr = new SqlParameter("@CreatedDate", model.CreatedDate);
             context.Database.ExecuteSqlCommand("Sp_Faculty_Add @Name, @Code, @CreatedDate", namePr, codePr, createdDatePr);
 
-            //var namePr = new SqlParameter("@Name", model.Name);
-            //var CodePr = new SqlParameter("@Code", model.Code);
-            //var CreatedDatePr = new SqlParameter("@CreatedDate", model.CreatedDate);
-            //context.Database.ExecuteSqlCommand("EXEC Sp_Faculty_Add @Name, @Code, @CreatedDate", namePr, CodePr, CreatedDatePr);
 
             //context.Faculty.Add(model);
             //context.SaveChanges();

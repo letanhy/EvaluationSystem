@@ -34,6 +34,11 @@ namespace EvaluationSystem.Controllers
             ViewBag.CountFaculty = countFaculty;
             return View();
         }
+        public ActionResult _ClosePopup()
+        {
+            ViewBag.ClosePopup = TempData["SuccessMessage"];
+            return View();
+        }
 
     }
 }

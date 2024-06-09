@@ -37,9 +37,9 @@ namespace EvaluationSystem.Controllers
         }
 
         // GET: Class/Details/5
-        public ActionResult Details(int Id)
+        public ActionResult Details(int Id1)
         {
-            var _class = _classRepository.GetInfoById(Id);
+            var _class = _classRepository.GetInfoById(Id1);
             var model = new ClassViewModel();
             if (_class != null)
             {
@@ -48,9 +48,9 @@ namespace EvaluationSystem.Controllers
                 model.CreatedDate = _class.CreatedDate;
                 model.MajorsName = _class.Majors?.Name;
                 model.MajorsCode = _class.Majors?.Code;
-                model.CountStudent = _studentRepository.CountStudent(Id);
+                model.CountStudent = _studentRepository.CountStudent(Id1);
                 model.StudentsList = _studentRepository
-                    .GetStudents(Id)
+                    .GetStudents(Id1)
                     .Select(x => new StudentViewModel
                     {
                         Id = x.Id,
@@ -64,6 +64,7 @@ namespace EvaluationSystem.Controllers
                         MajorsName = x.Class.Majors.Name,
                         MajorsCode = x.Class.Majors.Code,
                     }).ToList();
+                GetData(model);
                 return View(model);
             }
             return RedirectToAction("Index");
@@ -113,7 +114,7 @@ namespace EvaluationSystem.Controllers
                 _classRepository.Add(_class);
                 if (_class.Id>0)
                 {
-                    return RedirectToAction("Index");
+                    return RedirectToAction("_ClosePopup", "Home", new { area = "", FunctionCallback = "ClosePopupAndReloadPage" });
                 }
             }
             GetData(model);
