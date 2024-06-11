@@ -28,24 +28,35 @@
                         <th>Mã lớp</th>
                         <th>Tên lớp</th>
                         <th>Ngành</th>
-                        <th>Hành động</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
                     @foreach (var item in Model)
                     {
                         i = i + 1;
-                        <tr>
-                            <td>@i</td>
-                            <td>@(item.Code) </td>
-                            <td>@item.Name</td>
-                            <td>@(item.MajorsCode +" | "+item.MajorsName)</td>
-                            <td>
-                                <a href="@Url.Action("Edit","Class", new {Id= item.Id })">Chỉnh sửa</a> |
-                                <a href="@Url.Action("Delete", "Class", new { Id = item.Id})">Xóa</a> |
-                                <a href="@Url.Action("Details","Class", new {Id= item.Id })">Chi tiết</a>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td>@i</td>
+                        <td>@(item.Code) </td>
+                        <td>@item.Name</td>
+                        <td>@(item.MajorsCode +" | "+item.MajorsName)</td>
+                        <td>
+                            <div class="dropdown">
+                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bx bx-dots-vertical-rounded"></i>
+                                </button>
+                                <div class="dropdown-menu" style="">
+                                    <a class="dropdown-item" onclick="OpenPopup('@Url.Action("Edit", "Class", new{ IsPopup = true,  Id = item.Id})', 'Thêm lớp','lg', 500)"><i class="bx bx-edit-alt me-1"></i> Edit</a>
+                                    <a class="dropdown-item" href="@Url.Action("Delete", "Class", new { Id = item.Id })"><i class="bx bx-trash me-1"></i> Delete</a>
+                                </div>
+                            </div>
+                        </td>
+                        @*<td>
+                            <a href="OpenPopup('@Url.Action("Create", "Class", new{Id = item.Id, IsPopup = true })', 'Thêm lớp','lg', 500)">Chỉnh sửa</a> |
+                            <a href="@Url.Action("Delete", "Class", new { Id = item.Id})">Xóa</a> |
+                            <a href="@Url.Action("Details","Class", new {Id= item.Id })">Chi tiết</a>
+                        </td>*@
+                    </tr>
                     }
                 </tbody>
             </table>
