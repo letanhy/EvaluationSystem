@@ -104,6 +104,8 @@ namespace EvaluationSystem.Controllers
         [HttpPost]
         public ActionResult Create(ClassViewModel model)
         {
+                
+            var a = Request;
             if (ModelState.IsValid)
             {
                 Class _class = new Class();

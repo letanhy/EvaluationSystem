@@ -19,7 +19,7 @@
             $(".modal-dialog").css("max-width", "192vh");
         }
 
-        $("#modalCenterTitle").text(title.toUpperCase());
+        //$("#modalCenterTitle").text(title.toUpperCase());
 
         $("#modalCenter .modal-body .iframe-container").html("<iframe src='" + url + "' style='width:100%; height:100%'></iframe>");
         if (h > 0)
