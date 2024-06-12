@@ -16,13 +16,16 @@ namespace EvaluationSystem.Models
         [Required(ErrorMessage = "Chưa điền mã lớp")]
         [Display(Name = "Mã lớp")]
         public string Code { get; set; }
+        [Display(Name = "Ngày tạo")]
         public DateTime? CreatedDate { get; set; }
+        [Display(Name = "Ngày cập nhật")]
+        public DateTime? ModifiedDate { get; set; }
         [Required(ErrorMessage = "Chưa chọn tên ngành")]
         [Display(Name = "Tên Ngành")]
         public int? MajorsId { get; set; }
         [Display(Name = "Tên Ngành")]
         public string MajorsName { get; set; }
-
+        [Display(Name = "Mã ngành")]
         public string MajorsCode { get; set; }
         public SelectList MajorsList { get; set; } 
         public int? CountStudent { get; set; }

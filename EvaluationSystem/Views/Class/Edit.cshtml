@@ -17,7 +17,7 @@
     </div>
         @using (Html.BeginForm("Edit", "Class", FormMethod.Post))
         {
-           <input name="IsPopup" type="hidden" value="@Request["IsPopup"]" />
+           <input name="IsPopup" type="hidden" value="@Request["IsPopup"]"/>
             @Html.HiddenFor(x => x.Id)
             <div class="row mb-3">
                 @Html.LabelFor(x => x.Name, new { @class = "col-sm-2 col-form-label" })
