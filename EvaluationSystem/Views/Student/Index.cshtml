@@ -24,12 +24,19 @@
     <!-- Basic Bootstrap Table -->
     <div class="card">
         <h5 class="card-header">Danh sách sinh viên</h5>
+        <div style="margin-bottom: 20px; margin-left: 20px">
+            <button type="button" class="btn btn-sm btn-primary"
+                    onclick="OpenPopup('@Url.Action("Create", "Student", new{ IsPopup = true })', 'Thêm sinh viên','s', 500)">
+                Thêm lớp
+            </button>
+            <button type="button" class="btn btn-sm btn-secondary">Secondary</button>
+        </div>
         <div class="table-responsive text-nowrap">
             <table class="table">
                 <thead>
                     <tr>
                         <th>STT</th>
-                        <th>Họ và Tên</th>
+                        <th>Họ Tên</th>
                         <th>Tuổi</th>
                         <th>MSSV</th>
                         <th>Lớp</th>
@@ -50,7 +57,7 @@
                             <td>@(item.ClassCode +" | "+ item.ClassName )</td>
                             <td>@(item.MajorsCode +" | "+ item.MajorsName )</td>
                             <td>
-                                <a href="@Url.Action("Edit","Student", new {Id1 = item.Id})">Chinh sua</a>
+                                <a onclick="OpenPopup('@Url.Action("Edit", "Student", new{ IsPopup = true,  Id = item.Id})', 'Cập nhật','s', 500)">Chinh sua</a>
                                 |
                                 <a href="@Url.Action("Delete", "Student", new {Id = item.Id})">Xóa</a>
                                 |

@@ -17,7 +17,7 @@ namespace EvaluationSystem.Models
         [Display(Name = "Tuổi")]
         public int? Age { get; set; }
         [Required(ErrorMessage = "Mã sinh viên")]
-        [Display(Name = "Mã Sinh Viên")]
+        [Display(Name = "MSSV")]
         public string Code { get; set; }
         [Required(ErrorMessage = "Chọn lớp cho sinh viên")]
         [Display(Name = "Mã lớp")]

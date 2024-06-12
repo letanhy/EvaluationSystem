@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using EvaluationSystem.Data.Repositories;
 using EvaluationSystem.Data.Interfaces;
+using System.Data.Entity;
 
 namespace EvaluationSystem.Controllers
 {
@@ -23,17 +24,26 @@ namespace EvaluationSystem.Controllers
         }
         public ActionResult Index()
         {
-            var classListDb = _classRepository.ListAllInfo();
-            var models = classListDb.Select(x=> new ClassViewModel
-            {
-                Name = x.Name,
-                Code = x.Code,
-                CreatedDate = x.CreatedDate,
-                MajorsCode = x.Majors?.Code,
-                MajorsName = x.Majors?.Name,
-                Id = x.Id
-            });
-            return View(models);
+            return View();
+        }
+        public PartialViewResult IndexGrid()
+        {
+            var models = _classRepository.ListAll()
+                .Include(x=>x.Majors)
+                .AsNoTracking()
+                .OrderByDescending(x=>x.CreatedDate)
+                .Select(x => new ClassViewModel
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Code = x.Code,
+                    CreatedDate = x.CreatedDate,
+
+                    MajorsCode = x.Majors.Code,
+                    MajorsName = x.Majors.Name,
+                });
+
+            return PartialView("_IndexGrid", models);
         }
 
         // GET: Class/Details/5
@@ -104,8 +114,6 @@ namespace EvaluationSystem.Controllers
         [HttpPost]
         public ActionResult Create(ClassViewModel model)
         {
-                
-            var a = Request;
             if (ModelState.IsValid)
             {
                 Class _class = new Class();
@@ -116,7 +124,8 @@ namespace EvaluationSystem.Controllers
                 _classRepository.Add(_class);
                 if (_class.Id>0)
                 {
-                    return RedirectToAction("_ClosePopup", "Home", new { area = "", FunctionCallback = "ClosePopupAndReloadPage" });
+                    return RedirectToAction("_ClosePopup", "Home", 
+                        new { area = "", FunctionCallback = "ClosePopupAndReloadGrid" });
                 }
             }
             GetData(model);
@@ -134,6 +143,7 @@ namespace EvaluationSystem.Controllers
                 model.CreatedDate = _class.CreatedDate;
                 model.Code = _class.Code;
                 model.Name = _class.Name;
+                model.MajorsId = _class.MajorsId;
                 GetData(model);
                 return View(model);
             }
@@ -158,24 +168,26 @@ namespace EvaluationSystem.Controllers
                     _class.MajorsId = model.MajorsId;
                     _class.ModifiedDate = DateTime.Now;
                     _classRepository.Update(_class);
-                    return RedirectToAction("Index");
+                    return RedirectToAction("_ClosePopup", "Home",
+                        new { area = "", FunctionCallback = "ClosePopupAndReloadGrid" });
                 }
             }
             GetData(model);
             return View(model);
         }
 
-        [HttpGet]
+        [HttpPost]
         public ActionResult Delete(int id)
         {
+
             var _class = _classRepository.GetById(id);
             if (_class != null)
             {
                 _classRepository.Delete(_class);
 
-                return RedirectToAction("Index");
+                return Json(new { message = "Xóa thành công", type = "success" }, JsonRequestBehavior.AllowGet);
             }
-            return RedirectToAction("Index");
+            return Json(new { message = "Xóa không thành công", type = "error" }, JsonRequestBehavior.AllowGet);
         }
     }
 }
