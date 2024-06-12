@@ -40,11 +40,11 @@ namespace EvaluationSystem.Data.Repositories
             context.Entry(model).State = EntityState.Modified;
             context.SaveChanges();
         }
-        public IEnumerable<Class> ListAll()
+        public IQueryable<Class> ListAll()
         {
             return context.Classes;
         }
-        public IEnumerable<Class> ListAllInfo()
+        public IQueryable<Class> ListAllInfo()
         {
             return context.Classes.Include(x=>x.Majors).Where(x => x.IsDeleted != true);
         }

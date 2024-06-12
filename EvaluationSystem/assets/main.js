@@ -45,15 +45,7 @@ function ClosePopupAndReloadPage() {
     ShowLoading();
     ClosePopup(true);
 }
-function ClosePopupAndReloadGrid(title, text, type) {
-    ClosePopup();
-    alertPopup(title, text, type);
-    new MvcGrid(document.querySelector('.mvc-grid')).reload();
-}
-function ClosePopupAndNotifi(title, text, type) {
-    ClosePopup();
-    alertPopup(title, text, type);
-}
+
 function ShowLoading() {
     $(".img-loading-wrap").show();
 }
