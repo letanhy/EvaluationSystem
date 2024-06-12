@@ -9,8 +9,8 @@ namespace EvaluationSystem.Data.Interfaces
 {
     public interface IClassRepository 
     {
-        IEnumerable<Class> ListAll();
-        IEnumerable<Class> ListAllInfo();
+        IQueryable<Class> ListAll();
+        IQueryable<Class> ListAllInfo();
         IEnumerable<Class> ListAllByMajors(int ClassId);
         Class GetById(int Id);
         Class GetInfoById(int Id);
