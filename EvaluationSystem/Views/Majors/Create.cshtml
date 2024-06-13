@@ -1,57 +1,45 @@
 ﻿@model MajorsViewModel
 @using EvaluationSystem.Models;
+
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    var isPop = Request["IsPopup"];
+    Layout = "~/Views/Shared/" + (isPop == null ? "_Layout.cshtml" : "_PopupLayout.cshtml");
 }
 
-
-<!-- Content -->
-
-<div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Forms/</span> Horizontal Layouts</h4>
-
-    <!-- Basic Layout & Basic with Icons -->
+<div>
     <div class="row">
-        <!-- Basic Layout -->
-        <div class="col-xxl">
-            <div class="card mb-4">
-                <div class="card-header d-flex align-items-center justify-content-between">
-                    <h5 class="mb-0">Thêm ngành</h5>
-                </div>
-                <div class="card-body">
-                    @using (Html.BeginForm("Create", "Majors", FormMethod.Post))
-                    {
-                        <div class="row mb-3">
-                            @Html.LabelFor(x => x.Name, new { @class = "col-sm-2 col-form-label" })
-                            <div class="col-sm-10">
-                                @Html.TextBoxFor(x => x.Name, new { @class = "form-control", style = "" })
-                                @Html.ValidationMessageFor(x => x.Name, null, new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            @Html.LabelFor(x => x.Code, new { @class = "col-sm-2 col-form-label" })
-                            <div class="col-sm-10">
-                                @Html.TextBoxFor(x => x.Code, new { @class = "form-control", style = "" })
-                                @Html.ValidationMessageFor(x => x.Code, null, new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            @Html.LabelFor(x => x.FacultyId, new { @class = "col-sm-2 col-form-label" })
-                            <div class="col-sm-10">
-                                @Html.DropDownListFor(x => x.FacultyId, Model.FacultyList, new { @class = "form-select" })
-                                @Html.ValidationMessageFor(x => x.FacultyId, null, new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <div class="row justify-content-end">
-                            <div class="col-sm-10">
-                                <button type="submit" class="btn btn-primary">Thêm</button>
-                            </div>
-                        </div>
-                    }
-                </div>
-            </div>
+        <div class="col-sm-10 card-header  align-items-center justify-content-between" style="text-align: center">
+            <h4 class="mb-0">Thêm lớp hoc</h4>
         </div>
     </div>
+    @using (Html.BeginForm("Create", "Majors", FormMethod.Post))
+    {
+        <input name="IsPopup" type="hidden" value="@Request["IsPopup"]" />
+        <div class="row mb-3">
+            @Html.LabelFor(x => x.Name, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(x => x.Name, new { @class = "form-control", style = "" })
+                @Html.ValidationMessageFor(x => x.Name, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row mb-3">
+            @Html.LabelFor(x => x.Code, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(x => x.Code, new { @class = "form-control", style = "" })
+                @Html.ValidationMessageFor(x => x.Code, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row mb-3">
+            @Html.LabelFor(x => x.FacultyId, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                @Html.DropDownListFor(x => x.FacultyId, Model.FacultyList, new { @class = "form-select" })
+                @Html.ValidationMessageFor(x => x.FacultyId, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row justify-content-end">
+            <div class="col-sm-10">
+                <button type="submit" class="btn btn-primary">Thêm</button>
+            </div>
+        </div>
+    }
 </div>
-<!-- / Content -->
-<!-- Footer -->

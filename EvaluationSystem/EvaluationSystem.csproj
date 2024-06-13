@@ -212,6 +212,7 @@
     <Content Include="Views\Shared\MvcGrid\_Grid.cshtml" />
     <Content Include="Content\MvcGrid\Fonts\GridGlyphs.woff" />
     <Content Include="Views\Class\_IndexGrid.cshtml" />
+    <Content Include="Views\Majors\_IndexGrid.cshtml" />
     <None Include="Views\Shared\_PopupLayout.cshtml" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -271,6 +272,7 @@
     <Content Include="Views\Category\IndexCourse.cshtml" />
     <Content Include="Views\Category\EditSemester.cshtml" />
     <Content Include="Views\Category\EditCourse.cshtml" />
+    <Content Include="Views\Student\_IndexGrid.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

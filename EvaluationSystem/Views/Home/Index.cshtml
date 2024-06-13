@@ -3,54 +3,52 @@
     ViewBag.Title = "Index";
 }
 
-<div class="container-xxl flex-grow-1 container-p-y">
-    <div class="row">
-        <div class="col-lg-12 md-4 order-0">
-            <div class="row">
-                <div class="col-lg-3 mb-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="card-title d-flex align-items-start justify-content-between">
-                                <span class="fw-semibold d-block mb-1">Tổng số sinh viên</span>
-                                <i class="menu-icon  bx bxs-group"></i>
+<div class="row">
+    <div class="col-lg-12 md-4 order-0">
+        <div class="row">
+            <div class="col-lg-3 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-title d-flex align-items-start justify-content-between">
+                            <span class="fw-semibold d-block mb-1">Tổng số sinh viên</span>
+                            <i class="menu-icon  bx bxs-group"></i>
 
-                            </div>
-                            <h3 class="card-title mb-2 text-success fw-semibold">@ViewBag.CountStudents </h3>
                         </div>
+                        <h3 class="card-title mb-2 text-success fw-semibold">@ViewBag.CountStudents </h3>
                     </div>
                 </div>
-                <div class="col-lg-3 mb-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="card-title d-flex align-items-start justify-content-between">
-                                <span class="fw-semibold d-block mb-1">Tổng số lớp học</span>
-                                <i class="menu-icon  bx bxl-microsoft-teams"></i>
+            </div>
+            <div class="col-lg-3 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-title d-flex align-items-start justify-content-between">
+                            <span class="fw-semibold d-block mb-1">Tổng số lớp học</span>
+                            <i class="menu-icon  bx bxl-microsoft-teams"></i>
 
-                            </div>
-                            <h3 class="card-title mb-2 text-success fw-semibold">@ViewBag.CountClass </h3>
                         </div>
+                        <h3 class="card-title mb-2 text-success fw-semibold">@ViewBag.CountClass </h3>
                     </div>
                 </div>
-                <div class="col-lg-3 mb-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="card-title d-flex align-items-start justify-content-between">
-                                <span class="fw-semibold d-block mb-1">Ngành học</span>
-                                <i class="menu-icon tf-icons bx bxs-layer"></i>
-                            </div>
-                            <h3 class="card-title mb-2 text-success fw-semibold">@ViewBag.CountMajors </h3>
+            </div>
+            <div class="col-lg-3 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-title d-flex align-items-start justify-content-between">
+                            <span class="fw-semibold d-block mb-1">Ngành học</span>
+                            <i class="menu-icon tf-icons bx bxs-layer"></i>
                         </div>
+                        <h3 class="card-title mb-2 text-success fw-semibold">@ViewBag.CountMajors </h3>
                     </div>
                 </div>
-                <div class="col-lg-3 mb-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="card-title d-flex align-items-start justify-content-between">
-                                <span class="fw-semibold d-block mb-1">Khoa</span>
-                                <i class="menu-icon tf-icons bx bxs-server"></i>
-                            </div>
-                            <h3 class="card-title mb-2 text-success fw-semibold">@ViewBag.CountFaculty </h3>
+            </div>
+            <div class="col-lg-3 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-title d-flex align-items-start justify-content-between">
+                            <span class="fw-semibold d-block mb-1">Khoa</span>
+                            <i class="menu-icon tf-icons bx bxs-server"></i>
                         </div>
+                        <h3 class="card-title mb-2 text-success fw-semibold">@ViewBag.CountFaculty </h3>
                     </div>
                 </div>
             </div>

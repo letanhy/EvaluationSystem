@@ -2,20 +2,19 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="container-xxl flex-grow-1 container-p-y">
-    <div class="card mb-3">
-        <h5 class="card-header" style="padding-top: 20px; padding-bottom: 20px">Danh sách các lớp</h5>
-        <div style="margin-bottom: 20px; margin-left: 20px">
-            <button type="button" class="btn btn-sm btn-primary"
-                    onclick="OpenPopup('@Url.Action("Create", "Class", new{ IsPopup = true })', 'Thêm lớp','s', 500)">
-                Thêm lớp
-            </button>
-            <button type="button" class="btn btn-sm btn-secondary">Secondary</button>
-        </div>
+
+<div class="card mb-3">
+    <h5 class="card-header" style="padding-top: 20px; padding-bottom: 20px">Danh sách các lớp</h5>
+    <div style="margin-bottom: 20px; margin-left: 20px">
+        <button type="button" class="btn btn-sm btn-primary"
+                onclick="OpenPopup('@Url.Action("Create", "Class", new{ IsPopup = true })', 'Thêm lớp','s', 500)">
+            Thêm lớp
+        </button>
+        <button type="button" class="btn btn-sm btn-secondary">Secondary</button>
     </div>
-    <div class="card">
-        @Html.AjaxGrid(Url.Action("IndexGrid"))
-    </div>
+</div>
+<div class="card">
+    @Html.AjaxGrid(Url.Action("IndexGrid"))
 </div>
 @section ScriptBottom {
     <script type="text/javascript">

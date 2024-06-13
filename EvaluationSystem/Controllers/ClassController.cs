@@ -38,7 +38,6 @@ namespace EvaluationSystem.Controllers
                     Name = x.Name,
                     Code = x.Code,
                     CreatedDate = x.CreatedDate,
-
                     MajorsCode = x.Majors.Code,
                     MajorsName = x.Majors.Name,
                 });
@@ -89,7 +88,7 @@ namespace EvaluationSystem.Controllers
         }
         public void GetData(ClassViewModel model)
         {
-            var majorsListDb = _majorsRepository.ListAll();
+            var majorsListDb = _majorsRepository.GetAll();
             var list = new List<SelectListItem>();
             list.Add(new SelectListItem()
             {

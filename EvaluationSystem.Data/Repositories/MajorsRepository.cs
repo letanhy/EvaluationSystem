@@ -38,9 +38,9 @@ namespace EvaluationSystem.Data.Repositories
             context.Entry(model).State = EntityState.Modified;
             context.SaveChanges();
         }
-        public IEnumerable<Majors> ListAll()
+        public IQueryable<Majors> GetAll()
         {
-            return context.Majors.Where(x => x.IsDeleted != true).ToList();
+            return context.Majors.Where(x => x.IsDeleted != true);
         }
         public Majors GetById(int Id)
         {

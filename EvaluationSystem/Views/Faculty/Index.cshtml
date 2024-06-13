@@ -5,46 +5,45 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     int i = 0;
 }
-<div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Tables /</span> Basic Tables</h4>
+<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Tables /</span> Basic Tables</h4>
 
-    <!-- Basic Bootstrap Table -->
-    <div class="card">
-        <h5 class="card-header">Danh sách sinh viên</h5>
-        <div class="table-responsive text-nowrap">
-            <table class="table">
-                <thead>
+<!-- Basic Bootstrap Table -->
+<div class="card">
+    <h5 class="card-header">Danh sách sinh viên</h5>
+    <div class="table-responsive text-nowrap">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Tên khoa</th>
+                    <th>Mã khoa</th>
+                    <th>Ngày tạo</th>
+                    <th>Ngày cập nhật</th>
+                    <th></th>
+
+                </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+                @foreach (var item in Model)
+                {
+                    i = i + 1;
                     <tr>
-                        <th>STT</th>
-                        <th>Tên khoa</th>
-                        <th>Mã khoa</th>
-                        <th>Ngày tạo</th>
-                        <th>Ngày cập nhật</th>
-                        <th></th>
-
+                        <td>@i</td>
+                        <td>@item.Name</td>
+                        <td>@item.Code</td>
+                        <td>@item.CreatedDate</td>
+                        <td>@(item.ModifiedDate)</td>
+                        <td>
+                            <a href="@Url.Action("Edit", "Faculty", new { Id = item.Id})">Chỉnh sửa</a>
+                            |
+                            <a href="@Url.Action("Delete", "Faculty", new { Id = item.Id})">Xóa</a>
+                        </td>
                     </tr>
-                </thead>
-                <tbody class="table-border-bottom-0">
-                    @foreach (var item in Model)
-                    {
-                        i = i + 1;
-                        <tr>
-                            <td>@i</td>
-                            <td>@item.Name</td>
-                            <td>@item.Code</td>
-                            <td>@item.CreatedDate</td>
-                            <td>@(item.ModifiedDate)</td>
-                            <td>
-                                <a href="@Url.Action("Edit", "Faculty", new { Id = item.Id})">Chỉnh sửa</a>
-                                |
-                                <a href="@Url.Action("Delete", "Faculty", new { Id = item.Id})">Xóa</a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+                }
+            </tbody>
+        </table>
     </div>
 </div>
+
 
 
