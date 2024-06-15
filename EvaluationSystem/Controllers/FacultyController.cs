@@ -8,6 +8,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Data.Entity;
+
 
 namespace EvaluationSystem.Controllers
 {
@@ -22,18 +24,23 @@ namespace EvaluationSystem.Controllers
         // GET: Faculty
         public ActionResult Index()
         {
-
-            var facultyListDb = _facultyRepository.ListAllInfo();
-            var models = facultyListDb.Select(x => new FacultyViewModel
-            {
-                Name = x.Name,
-                Code = x.Code,
-                CreatedDate = x.CreatedDate,
-                ModifiedDate = x.ModifiedDate,
-                Id = x.Id
-            });
-            var a = facultyListDb.ToList();
-            return View(models);
+            
+            return View();
+        }
+        public PartialViewResult IndexGrid()
+        {
+            var models = _facultyRepository.GetAll()
+                .AsNoTracking()
+                .OrderBy(x => x.CreatedDate)
+                .Select(x => new FacultyViewModel
+                {
+                    Name = x.Name,
+                    Code = x.Code,
+                    CreatedDate = x.CreatedDate,
+                    ModifiedDate = x.ModifiedDate,
+                    Id = x.Id
+                });
+            return PartialView("_IndexGrid", models);
         }
         public ActionResult Create()
         {
@@ -51,7 +58,12 @@ namespace EvaluationSystem.Controllers
                 faculty.Code = models.Code;
                 faculty.CreatedDate = DateTime.Now;
                 _facultyRepository.Add(faculty);
-                 return RedirectToAction("Index");
+                if (Request["IsPopup"] != null)
+                {
+                    return RedirectToAction("_ClosePopup", "Home",
+                        new { area = "", FunctionCallback = "ClosePopupAndReloadGrid" });
+                }
+                return RedirectToAction("Index");
             }
             return View(models);
         }
@@ -81,9 +93,10 @@ namespace EvaluationSystem.Controllers
                     faculty.Code = model.Code;
                     faculty.ModifiedDate = DateTime.Now;
                     _facultyRepository.Update(faculty);
-                    return RedirectToAction("Index");
+
+                    return RedirectToAction("_ClosePopup", "Home",
+                        new { area = "", FunctionCallback = "ClosePopupAndReloadGrid" });
                 }
-                return RedirectToAction("Index");
             }
             return View(model);
         }
@@ -94,9 +107,9 @@ namespace EvaluationSystem.Controllers
             {
                 _facultyRepository.DeleteRs(faculty.Id);
 
-                return RedirectToAction("Index");
+                return Json(new { message = "Xóa thành công", type = "success" }, JsonRequestBehavior.AllowGet);
             }
-            return RedirectToAction("Index");
+            return Json(new { message = "Xóa không thành công", type = "error" }, JsonRequestBehavior.AllowGet);
         }
     }
 }

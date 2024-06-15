@@ -1,49 +1,51 @@
-﻿@model IEnumerable<FacultyViewModel>
-@using EvaluationSystem.Models;
+﻿
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    int i = 0;
+    var isPop = Request["IsPopup"];
+    Layout = "~/Views/Shared/" + (isPop == null ? "_Layout.cshtml" : "_PopupLayout.cshtml");
 }
-<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Tables /</span> Basic Tables</h4>
 
-<!-- Basic Bootstrap Table -->
-<div class="card">
-    <h5 class="card-header">Danh sách sinh viên</h5>
-    <div class="table-responsive text-nowrap">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>STT</th>
-                    <th>Tên khoa</th>
-                    <th>Mã khoa</th>
-                    <th>Ngày tạo</th>
-                    <th>Ngày cập nhật</th>
-                    <th></th>
-
-                </tr>
-            </thead>
-            <tbody class="table-border-bottom-0">
-                @foreach (var item in Model)
-                {
-                    i = i + 1;
-                    <tr>
-                        <td>@i</td>
-                        <td>@item.Name</td>
-                        <td>@item.Code</td>
-                        <td>@item.CreatedDate</td>
-                        <td>@(item.ModifiedDate)</td>
-                        <td>
-                            <a href="@Url.Action("Edit", "Faculty", new { Id = item.Id})">Chỉnh sửa</a>
-                            |
-                            <a href="@Url.Action("Delete", "Faculty", new { Id = item.Id})">Xóa</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+<div class="card mb-3">
+    <h5 class="card-header" style="padding-top: 20px; padding-bottom: 20px">Danh sách khoa</h5>
+    <div style="margin-bottom: 20px; margin-left: 20px">
+        <button type="button" class="btn btn-sm btn-primary"
+                onclick="OpenPopup('@Url.Action("Create", "Faculty", new{ IsPopup = true })', 'Thêm khoa','s', 500)">
+            Thêm khoa
+        </button>
+        <button type="button" class="btn btn-sm btn-secondary">Secondary</button>
     </div>
 </div>
+<div class="card">
+    @Html.AjaxGrid(Url.Action("IndexGrid"))
+</div>
+@section ScriptBottom {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            new MvcGrid(document.querySelector('.mvc-grid'));
+        });
 
+        function ClosePopupAndReloadGrid() {
+            ClosePopup();
+            ReloadGrid();
+        }
 
+        function DeleteItem(Id) {
+            if (confirm('Bạn có chắc muốn xóa?')) {
+                $.ajax({
+                    url: '@Url.Action("Delete")',
+                    type: "POST",
+                    data: { Id: Id },
+                    success: function (res) {
+                        alert(res.message, res.type)
+                        ReloadGrid();
+                    }
+                });
+            }
+        }
 
+        function ReloadGrid() {
+            var grid = new MvcGrid(document.querySelector('.mvc-grid'));
+            grid.reload();
+        }
+    </script>
+}

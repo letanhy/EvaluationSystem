@@ -1,4 +1,4 @@
-﻿@model IQueryable<MajorsViewModel>
+﻿@model IQueryable<FacultyViewModel>
 @using EvaluationSystem.Models
 
 @(Html
@@ -7,8 +7,8 @@
     {
         columns.Add(model => model.Name);
         columns.Add(model => model.Code);
-        columns.Add(model => model.CreatedDate);
-        columns.Add(model => model.FacultyName);
+        columns.Add(model => model.CreatedDate).Formatted("{0:HH:mm dd/MM/yyyy }");
+        columns.Add(model => model.ModifiedDate).Formatted("{0:HH:mm dd/MM/yyyy }");
         columns.Add().Titled("Hoạt động").Encoded(false).RenderedAs(x => GridColumnAction(x.Id));
     })
     .Empty("No data found")
@@ -24,15 +24,16 @@
 )
 
 
-@helper GridColumnAction(int Id)
+@helper GridColumnAction(int id)
 {
-    <a class="text-info" href="@Url.Action("Details", "Majors", new { Id = Id })">
-       <i class='bx bx-info-circle' style="font-size: 25px"></i>
+    <a class="text-info" href="@Url.Action("Details", "Faculty", new { Id = id })">
+        <i class='bx bx-info-circle' style="font-size: 25px"></i>
     </a>
-    <a href="javascript:void(0)" class="text-warning" onclick="OpenPopup('@Url.Action("Edit", "Majors", new{ IsPopup = true,  Id = Id})', 'Cập nhật','s', 500)">
+    <a href="javascript:void(0)" class="text-warning" onclick="OpenPopup('@Url.Action("Edit", "Faculty", new{ IsPopup = true,  Id = id})', 'Cập nhật','s', 500)">
         <i class="bx bx-edit-alt me-1" style="font-size: 25px"></i>
     </a>
-    <a href="javascript:void(0)" class="text-danger" onclick="DeleteItem(@Id)">
+    <a href="javascript:void(0)" class="text-danger" onclick="DeleteItem(@id)">
         <i class="bx bx-trash me-1" style="font-size: 25px"></i>
     </a>
 }
+

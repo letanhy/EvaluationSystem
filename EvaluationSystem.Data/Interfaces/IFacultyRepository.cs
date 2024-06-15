@@ -12,7 +12,7 @@ namespace EvaluationSystem.Data.Interfaces
         IQueryable<Faculty> GetAll ();
         Faculty GetById(int Id);
         Faculty GetInfoById(int Id);
-        void Add(Faculty faculty);
+        int Add(Faculty faculty);
         void Update(Faculty faculty);
         void Delete(int Id);
         void DeleteRs(int Id);

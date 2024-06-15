@@ -123,8 +123,12 @@ namespace EvaluationSystem.Controllers
                 _classRepository.Add(_class);
                 if (_class.Id>0)
                 {
-                    return RedirectToAction("_ClosePopup", "Home", 
-                        new { area = "", FunctionCallback = "ClosePopupAndReloadGrid" });
+                    if (Request["IsPopup"] != null)
+                    {
+                        return RedirectToAction("_ClosePopup", "Home",
+                            new { area = "", FunctionCallback = "ClosePopupAndReloadGrid" });
+                    }
+                    return RedirectToAction("Index");
                 }
             }
             GetData(model);

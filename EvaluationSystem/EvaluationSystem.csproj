@@ -213,6 +213,10 @@
     <Content Include="Content\MvcGrid\Fonts\GridGlyphs.woff" />
     <Content Include="Views\Class\_IndexGrid.cshtml" />
     <Content Include="Views\Majors\_IndexGrid.cshtml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\letanhy130401-001-site1 - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\letanhy130401-001-site1 - Web Deploy.pubxml" />
+    <Content Include="Views\Faculty\_IndexGrid.cshtml" />
     <None Include="Views\Shared\_PopupLayout.cshtml" />
     <Content Include="Web.config" />
   </ItemGroup>

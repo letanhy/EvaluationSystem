@@ -4,21 +4,18 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="container-xxl flex-grow-1 container-p-y">
-    <!-- Basic Bootstrap Table -->
-    <div class="card">
-        <h5 class="card-header">Danh sách sinh viên</h5>
-        <div style="margin-bottom: 20px; margin-left: 20px">
-            <button type="button" class="btn btn-sm btn-primary"
-                    onclick="OpenPopup('@Url.Action("Create", "Student", new{ IsPopup = true })', 'Thêm sinh viên','s', 500)">
-                Thêm sinh viên
-            </button>
-            <button type="button" class="btn btn-sm btn-secondary">Secondary</button>
-        </div>
-        <div class="table-responsive text-nowrap">
-            @Html.AjaxGrid(Url.Action("IndexGrid"))
-        </div>
-    </div>
+
+
+<h5 class="card-header">Danh sách sinh viên</h5>
+<div style="margin-bottom: 20px; margin-left: 20px">
+    <button type="button" class="btn btn-sm btn-primary"
+            onclick="OpenPopup('@Url.Action("Create", "Student", new{ IsPopup = true })', 'Thêm sinh viên','s', 500)">
+        Thêm sinh viên
+    </button>
+    <button type="button" class="btn btn-sm btn-secondary">Secondary</button>
+</div>
+<div class="table-responsive text-nowrap">
+    @Html.AjaxGrid(Url.Action("IndexGrid"))
 </div>
 
 @section ScriptBottom {

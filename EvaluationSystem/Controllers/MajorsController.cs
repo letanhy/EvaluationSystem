@@ -27,6 +27,7 @@ namespace EvaluationSystem.Controllers
         public PartialViewResult IndexGrid()
         {
             var majorsListDb = _majorsRepository.GetAll();
+
             var models = majorsListDb.Select(x => new MajorsViewModel
             {
                 Id = x.Id,
@@ -34,9 +35,9 @@ namespace EvaluationSystem.Controllers
                 Code = x.Code,
                 CreatedDate = x.CreatedDate,
                 ModifiedDate = x.ModifiedDate,
-                FacultyCode = x.Faculty.Code,
                 FacultyName = x.Faculty.Name,
             });
+
             return PartialView("_IndexGrid",models);
         }
         public ActionResult Details(int Id)
@@ -58,7 +59,7 @@ namespace EvaluationSystem.Controllers
         }
         public void GetData(MajorsViewModel model)
         {
-            var facultyListDb = _facultyRepository.ListAll();
+            var facultyListDb = _facultyRepository.GetAll();
             var list = new List<SelectListItem>();
             list.Add(new SelectListItem()
             {
