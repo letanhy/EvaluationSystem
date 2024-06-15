@@ -9,7 +9,7 @@ namespace EvaluationSystem.Data.Interfaces
 {
     public interface IFacultyRepository
     {
-        IEnumerable<Faculty> ListAll();
+        IQueryable<Faculty> GetAll ();
         Faculty GetById(int Id);
         Faculty GetInfoById(int Id);
         void Add(Faculty faculty);

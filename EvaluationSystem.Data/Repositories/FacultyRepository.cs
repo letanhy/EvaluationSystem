@@ -53,9 +53,8 @@ namespace EvaluationSystem.Data.Repositories
             context.Entry(model).State = EntityState.Modified;
             context.SaveChanges();
         }
-        public IEnumerable<Faculty> ListAll()
+        public IQueryable<Faculty> GetAll()
         {
-
             return context.Faculty;
         }
         public IEnumerable<Faculty> ListAllInfo()
