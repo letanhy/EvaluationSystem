@@ -11,10 +11,10 @@ namespace EvaluationSystem.Models
     {
 
         public int Id { get; set; }
-        [Display(Name = "Tên ngành:")]
+        [Display(Name = "Tên ngành")]
         [Required(ErrorMessage = "Chưa điền tên ngành")]
         public string Name { get; set; }
-        [Display(Name = "Mã ngành:")]
+        [Display(Name = "Mã ngành")]
         [Required(ErrorMessage = "Chưa điền mã ngành")]
         public string Code { get; set; }
         [Display(Name = "Ngày")]
@@ -26,6 +26,7 @@ namespace EvaluationSystem.Models
         public int? FacultyId { get; set; }
         [Display(Name = "Khoa")]
         public string FacultyName { get; set; }
+        [Display(Name = "Mã khoa")]
         public string FacultyCode   { get; set; }
         public SelectList FacultyList   { get; set; }
 

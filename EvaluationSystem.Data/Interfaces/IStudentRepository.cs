@@ -9,7 +9,7 @@ namespace EvaluationSystem.Data.Interfaces
 {
     public interface IStudentRepository
     {
-        IQueryable<Student> ListAll();
+        IQueryable<Student> GetAll();
         Student GetById(int Id);
         Student GetInfoById(int Id);
         int Add(Student student);

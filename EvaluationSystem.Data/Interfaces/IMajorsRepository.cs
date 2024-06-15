@@ -9,7 +9,7 @@ namespace EvaluationSystem.Data.Interfaces
 {
     public interface IMajorsRepository
     {
-        IEnumerable<Majors> ListAll();
+        IQueryable<Majors> GetAll();
         Majors GetById(int Id);
         int Add(Majors majors);
         void Update(Majors majors);

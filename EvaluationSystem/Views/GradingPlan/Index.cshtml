@@ -5,49 +5,47 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     int i = 0;
 }
-<div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Tables /</span> Basic Tables</h4>
+<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Tables /</span> Basic Tables</h4>
 
-    <!-- Basic Bootstrap Table -->
-    <div class="card">
-        <h5 class="card-header">Danh dách kế hoạch chấm điểm</h5>
-        <div class="table-responsive text-nowrap">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>STT</th>
-                        <th>Tiêu đề</th>
-                        <th>Ghi chú</th>
-                        <th>Ngày bắt đầu</th>
-                        <th>ngày kết thúc</th>
-                        <th>Ngày tạo</th>
-                        <th>Ngày cập nhật</th>
-                        <th></th>
+<!-- Basic Bootstrap Table -->
+<div class="card">
+    <h5 class="card-header">Danh dách kế hoạch chấm điểm</h5>
+    <div class="table-responsive text-nowrap">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Tiêu đề</th>
+                    <th>Ghi chú</th>
+                    <th>Ngày bắt đầu</th>
+                    <th>ngày kết thúc</th>
+                    <th>Ngày tạo</th>
+                    <th>Ngày cập nhật</th>
+                    <th></th>
 
-                    </tr>
-                </thead>
-                <tbody class="table-border-bottom-0">
-                    @foreach (var item in Model)
-                    {
-                        i = i + 1;
-                    <tr>
-                        <td>@i</td>
-                        <td>@item.Titel</td>
-                        <td>@item.Note</td>
-                        <td>@item.StartDate.Value.ToString("dd/MM/yyyy")</td>
-                        <td>@item.EndDate.Value.ToString("dd/MM/yyyy")</td>
-                        <td>@(item.CreatedDate.Value.ToString("dd/MM/yyyy"))</td>
-                        <td>@(item.ModifiedDate.Value.ToString("dd/MM/yyyy"))</td>
-                        <td>
-                            <a href="@Url.Action("Edit", "GradingPlan", new { Id = item.Id})">Chỉnh sửa</a>
-                            |
-                            <a href="@Url.Action("Delete", "GradingPlan", new { Id = item.Id})">Xóa</a>
-                        </td>
-                    </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+                </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+                @foreach (var item in Model)
+                {
+                    i = i + 1;
+                <tr>
+                    <td>@i</td>
+                    <td>@item.Titel</td>
+                    <td>@item.Note</td>
+                    <td>@item.StartDate.Value.ToString("dd/MM/yyyy")</td>
+                    <td>@item.EndDate.Value.ToString("dd/MM/yyyy")</td>
+                    <td>@(item.CreatedDate.Value.ToString("dd/MM/yyyy"))</td>
+                    <td>@(item.ModifiedDate.Value.ToString("dd/MM/yyyy"))</td>
+                    <td>
+                        <a href="@Url.Action("Edit", "GradingPlan", new { Id = item.Id})">Chỉnh sửa</a>
+                        |
+                        <a href="@Url.Action("Delete", "GradingPlan", new { Id = item.Id})">Xóa</a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
     </div>
 </div>
 

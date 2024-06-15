@@ -11,7 +11,7 @@ namespace EvaluationSystem.Models
     {
         public int Id { get; set; }
         [Required(ErrorMessage = "Chưa điền tên khoa")]
-        [Display(Name = "Tên tên khoa")]
+        [Display(Name = "Tên khoa")]
         public string Name { get; set; }
         [Required(ErrorMessage = "Chưa điền mã khoa")]
         [Display(Name = "Mã khoa")]

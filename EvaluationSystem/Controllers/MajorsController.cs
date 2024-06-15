@@ -21,18 +21,24 @@ namespace EvaluationSystem.Controllers
         // GET: Majors
         public ActionResult Index()
         {
-            var majorsListDb = _majorsRepository.ListAllInfo();
+            
+            return View();
+        }
+        public PartialViewResult IndexGrid()
+        {
+            var majorsListDb = _majorsRepository.GetAll();
+
             var models = majorsListDb.Select(x => new MajorsViewModel
             {
+                Id = x.Id,
                 Name = x.Name,
                 Code = x.Code,
                 CreatedDate = x.CreatedDate,
                 ModifiedDate = x.ModifiedDate,
-                FacultyCode = x.Faculty?.Code,
-                FacultyName = x.Faculty?.Name,
-                Id = x.Id,
+                FacultyName = x.Faculty.Name,
             });
-            return View(models);
+
+            return PartialView("_IndexGrid",models);
         }
         public ActionResult Details(int Id)
         {
@@ -53,7 +59,7 @@ namespace EvaluationSystem.Controllers
         }
         public void GetData(MajorsViewModel model)
         {
-            var facultyListDb = _facultyRepository.ListAll();
+            var facultyListDb = _facultyRepository.GetAll();
             var list = new List<SelectListItem>();
             list.Add(new SelectListItem()
             {
@@ -89,7 +95,8 @@ namespace EvaluationSystem.Controllers
                 _majorsRepository.Add(majors);
                 if (majors.Id > 0)
                 {
-                    return RedirectToAction("Index");
+                    return RedirectToAction("_ClosePopup", "Home",
+                        new { area = "", FunctionCallback = "ClosePopupAndReloadGrid" });
                 }
             }
             GetData(models);
@@ -104,6 +111,7 @@ namespace EvaluationSystem.Controllers
                 model.Id = majors.Id;
                 model.Code = majors.Code;
                 model.Name = majors.Name;
+                model.FacultyId = majors.FacultyId;
                 GetData(model);
                 return View(model);
             }
@@ -122,7 +130,8 @@ namespace EvaluationSystem.Controllers
                     majors.ModifiedDate = DateTime.Now;
                     majors.FacultyId = model.FacultyId;
                     _majorsRepository.Update(majors);
-                    return RedirectToAction("Index");
+                    return RedirectToAction("_ClosePopup", "Home",
+                        new { area = "", FunctionCallback = "ClosePopupAndReloadGrid" });
                 }
                 return RedirectToAction("Index");
             }
@@ -136,9 +145,9 @@ namespace EvaluationSystem.Controllers
             {
                 _majorsRepository.Delete(Id);
 
-                return RedirectToAction("Index");
+                return Json(new { message = "Xóa thành công", type = "success" }, JsonRequestBehavior.AllowGet);
             }
-            return RedirectToAction("Index");
+            return Json(new { message = "Xóa không thành công", type = "error" }, JsonRequestBehavior.AllowGet);
         }
     }
 }

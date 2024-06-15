@@ -1,48 +1,49 @@
-﻿@model IEnumerable<MajorsViewModel>
-@using EvaluationSystem.Models;
+﻿
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    int i = 0;
 }
-<div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Tables /</span> Basic Tables</h4>
-
-    <!-- Basic Bootstrap Table -->
-    <div class="card">
-        <h5 class="card-header">Chuyên ngành</h5>
-        <div class="table-responsive text-nowrap">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>STT</th>
-                        <th>Tên ngành</th>
-                        <th>Mã ngành</th>
-                        <th>Khoa</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody class="table-border-bottom-0">
-                    @foreach (var item in Model)
-                    {
-                        i = i + 1;
-                        <tr>
-                            <td>@i</td>
-                            <td>@(item.Name)</td>
-                            <td>@item.Code</td>
-                            <td>@(item.FacultyCode +" | "+ item.FacultyName)</td>
-
-                            <td>
-                                <a href="@Url.Action("Edit","Majors", new { Id = item.Id})">Chỉnh sửa</a> | 
-                                <a href="@Url.Action("Delete","Majors", new {Id= item.Id})">Xóa</a> | 
-                                <a href="@Url.Action("Details","Majors", new {Id= item.Id})">Chi tiết</a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+<div class="card mb-3">
+    <h5 class="card-header" style="padding-top: 20px; padding-bottom: 20px">Danh sách ngành học</h5>
+    <div style="margin-bottom: 20px; margin-left: 20px">
+        <button type="button" class="btn btn-sm btn-primary"
+                onclick="OpenPopup('@Url.Action("Create", "Majors", new{ IsPopup = true })', 'Thêm Ngành','s', 500)">
+            Thêm ngành
+        </button>
+        <button type="button" class="btn btn-sm btn-secondary">Secondary</button>
     </div>
 </div>
+<div class="card">
+    @Html.AjaxGrid(Url.Action("IndexGrid"))
+</div>
+@section ScriptBottom {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            new MvcGrid(document.querySelector('.mvc-grid'));
+        });
 
+        function ClosePopupAndReloadGrid() {
+            ClosePopup();
+            ReloadGrid();
+        }
 
+        function DeleteItem(Id) {
+            if (confirm('Bạn có chắc muốn xóa?')) {
+                $.ajax({
+                    url: '@Url.Action("Delete")',
+                    type: "POST",
+                    data: { Id: Id },
+                    success: function (res) {
+                        alert(res.message, res.type)
+                        ReloadGrid();
+                    }
+                });
+            }
+        }
+
+        function ReloadGrid() {
+            var grid = new MvcGrid(document.querySelector('.mvc-grid'));
+            grid.reload();
+        }
+    </script>
+}

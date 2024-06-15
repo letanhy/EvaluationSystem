@@ -13,26 +13,27 @@ namespace EvaluationSystem.Data.Repositories
     public class FacultyRepository : IFacultyRepository
     {
         EvaluationSystemDbContext context = new EvaluationSystemDbContext();
-        public void Add(Faculty model)
+        public int Add(Faculty model)
         {
-            var namePr = new SqlParameter("@Name", model.Name);
-            var codePr = new SqlParameter("@Code", model.Code);
-            var createdDatePr = new SqlParameter("@CreatedDate", model.CreatedDate);
-            context.Database.ExecuteSqlCommand("Sp_Faculty_Add @Name, @Code, @CreatedDate", namePr, codePr, createdDatePr);
+            //var namePr = new SqlParameter("@Name", model.Name);
+            //var codePr = new SqlParameter("@Code", model.Code);
+            //var createdDatePr = new SqlParameter("@CreatedDate", model.CreatedDate);
+            //context.Database.ExecuteSqlCommand("Sp_Faculty_Add @Name, @Code, @CreatedDate", namePr, codePr, createdDatePr);
 
 
-            //context.Faculty.Add(model);
-            //context.SaveChanges();
-            //return model.Id;
+            context.Faculty.Add(model);
+            context.SaveChanges();
+            return model.Id;
         }
         public void Update(Faculty model)
         {
-            
-            var IdPr = new SqlParameter("@Id", model.Id);
-            var namePr = new SqlParameter("@Name", model.Name);
-            var CodePr = new SqlParameter("@Code", model.Code);
-            var ModifiedDatePr = new SqlParameter("@ModifiedDate", model.ModifiedDate);
-            context.Database.ExecuteSqlCommand("UpdateFaculty @Id, @Name, @Code, @ModifiedDate", IdPr, namePr, CodePr, ModifiedDatePr);
+            context.Entry(model).State = EntityState.Modified;
+            context.SaveChanges();
+            //var IdPr = new SqlParameter("@Id", model.Id);
+            //var namePr = new SqlParameter("@Name", model.Name);
+            //var CodePr = new SqlParameter("@Code", model.Code);
+            //var ModifiedDatePr = new SqlParameter("@ModifiedDate", model.ModifiedDate);
+            //context.Database.ExecuteSqlCommand("UpdateFaculty @Id, @Name, @Code, @ModifiedDate", IdPr, namePr, CodePr, ModifiedDatePr);
           
         }
         public void Delete(int Id)
@@ -53,9 +54,8 @@ namespace EvaluationSystem.Data.Repositories
             context.Entry(model).State = EntityState.Modified;
             context.SaveChanges();
         }
-        public IEnumerable<Faculty> ListAll()
+        public IQueryable<Faculty> GetAll()
         {
-
             return context.Faculty;
         }
         public IEnumerable<Faculty> ListAllInfo()
