@@ -28,6 +28,7 @@ namespace EvaluationSystem.Models
         [Display(Name = "Mã ngành")]
         public string MajorsCode { get; set; }
         public SelectList MajorsList { get; set; } 
+        public SelectList FacultyList { get; set; } 
         public int? CountStudent { get; set; }
         public List<StudentViewModel> StudentsList { get; set; }
     }

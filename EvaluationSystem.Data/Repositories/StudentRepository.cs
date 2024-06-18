@@ -44,7 +44,7 @@ namespace EvaluationSystem.Data.Repositories
 
         public IQueryable<Student> GetAll()
         {
-            return context.Students.Where(x => x.IsDeleted != true);
+            return context.Students.Include(x => x.Class.Majors.Faculty);
         }
 
         public IEnumerable<Student> ListAllInfo()

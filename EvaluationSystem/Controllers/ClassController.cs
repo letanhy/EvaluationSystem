@@ -16,20 +16,38 @@ namespace EvaluationSystem.Controllers
         IClassRepository _classRepository;
         IMajorsRepository _majorsRepository;
         IStudentRepository _studentRepository;
-        public ClassController(IClassRepository classRepository, IMajorsRepository majorsRepository, IStudentRepository studentRepository)
+        IFacultyRepository _facultyRepository;
+        public ClassController( IFacultyRepository facultyRepository, IClassRepository classRepository, IMajorsRepository majorsRepository, IStudentRepository studentRepository)
         {
             _classRepository = classRepository;
             _majorsRepository = majorsRepository;
             _studentRepository = studentRepository;
+            _facultyRepository = facultyRepository;
         }
         public ActionResult Index()
         {
-            return View();
+            var model = new ClassViewModel();
+            var majorsGroupList = _majorsRepository.GetAll().OrderByDescending(x => x.CreatedDate);
+            model.MajorsList = GetSelectList(majorsGroupList, "Id", "Name", "", "--Ngành--");
+            var facultyGroupList = _facultyRepository.GetAll().OrderByDescending(x => x.CreatedDate);
+            model.FacultyList = GetSelectList(facultyGroupList, "Id", "Name", "", "--Khoa--");
+            return View(model);
         }
-        public PartialViewResult IndexGrid()
+        public PartialViewResult IndexGrid(string name, string code, int? majorsId, int? facultyId)
         {
-            var models = _classRepository.ListAll()
-                .Include(x=>x.Majors)
+            majorsId = majorsId ?? 0;
+            name = (name ?? "").Trim().ToLower();
+            code = (code ?? "").Trim().ToLower();
+            facultyId = facultyId ?? 0;
+
+            var _class = _classRepository.ListAll().Where(x =>
+                (majorsId == 0 || x.MajorsId == majorsId)
+                && (facultyId == 0 || x.Majors.FacultyId == facultyId)
+                && (name == "" || x.Name.Contains(name))
+                && (code == "" || x.Code.Contains(code))
+                );
+            var models = _class
+                .Include(x=>x.Majors.Faculty)
                 .AsNoTracking()
                 .OrderByDescending(x=>x.CreatedDate)
                 .Select(x => new ClassViewModel
@@ -43,6 +61,18 @@ namespace EvaluationSystem.Controllers
                 });
 
             return PartialView("_IndexGrid", models);
+        }
+        protected SelectList GetSelectList(IQueryable<object> list, string value, string text, object selected = null, string NullOrNameEmpty = null)
+        {
+            var selectList = new SelectList(list, value, text).ToList();
+            if (NullOrNameEmpty != null)
+            {
+                SelectListItem itemEmpty = new SelectListItem();
+                itemEmpty.Text = NullOrNameEmpty;
+                itemEmpty.Value = null;
+                selectList.Insert(0, itemEmpty);
+            }
+            return new SelectList(selectList, "Value", "Text", selected);
         }
 
         // GET: Class/Details/5

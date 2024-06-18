@@ -40,7 +40,7 @@ namespace EvaluationSystem.Data.Repositories
         }
         public IQueryable<Majors> GetAll()
         {
-            return context.Majors.Where(x => x.IsDeleted != true);
+            return context.Majors;
         }
         public Majors GetById(int Id)
         {

@@ -1,16 +1,36 @@
-﻿@{
+﻿@using EvaluationSystem.Models
+@model ClassViewModel
+@{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<h4 style="">Danh sách các lớp</h4>
+
 <div class="card mb-3">
-    <h5 class="card-header" style="padding-top: 20px; padding-bottom: 20px">Danh sách các lớp</h5>
+    <div class="card-body">
+        <div class="row mb-3">
+            <div class="col-md-2 px-1">
+                @Html.TextBox("name", "", new { @class = "form-control", @placeholder = "Tên lớp" })
+            </div>
+            <div class="col-md-2 px-1">
+                @Html.TextBox("code", "", new { @class = "form-control", @placeholder = "Mã lớp" })
+            </div>
+            <div class="col-md-2 px-1">
+                @Html.DropDownList("majorsId", Model.MajorsList, new { @class = "form-control" })
+            </div>
+            <div class="col-md-2 px-1">
+                @Html.DropDownList("facultyId", Model.FacultyList, new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
     <div style="margin-bottom: 20px; margin-left: 20px">
         <button type="button" class="btn btn-sm btn-primary"
                 onclick="OpenPopup('@Url.Action("Create", "Class", new{ IsPopup = true })', 'Thêm lớp','s', 500)">
+            <i class="bx bx-plus-circle"></i>
             Thêm lớp
         </button>
-        <button type="button" class="btn btn-sm btn-secondary">Secondary</button>
+        @*<button type="button" class="btn btn-sm btn-secondary">Secondary</button>*@
     </div>
 </div>
 <div class="card">
@@ -18,9 +38,27 @@
 </div>
 @section ScriptBottom {
     <script type="text/javascript">
+        document.getElementById('name').addEventListener('input', function () {
+            search('name', this.value);
+        });
+        document.getElementById('code').addEventListener('input', function () {
+            search('code', this.value);
+        });
+        document.getElementById('majorsId').addEventListener('change', function () {
+            search('majorsId', this.value);
+        });
+        document.getElementById('facultyId').addEventListener('change', function () {
+            search('facultyId', this.value);
+        });
         $(document).ready(function () {
             new MvcGrid(document.querySelector('.mvc-grid'));
         });
+
+        function search(key, value) {
+            var grid = new MvcGrid(document.querySelector('.mvc-grid'));
+            grid.query.set(key, value);
+            grid.reload();
+        }
 
         function ClosePopupAndReloadGrid() {
             ClosePopup();
@@ -43,6 +81,10 @@
 
         function ReloadGrid() {
             var grid = new MvcGrid(document.querySelector('.mvc-grid'));
+            grid.query.set("name", $("#Name").val());
+            grid.query.set("code", $("#Code").val());
+            grid.query.set("majorsId", $("#MajorsId").val());
+            grid.query.set("facultyId", $("#FacultyId").val());
             grid.reload();
         }
     </script>
