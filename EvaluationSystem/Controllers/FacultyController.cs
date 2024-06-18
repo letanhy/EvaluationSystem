@@ -24,12 +24,15 @@ namespace EvaluationSystem.Controllers
         // GET: Faculty
         public ActionResult Index()
         {
-            
             return View();
         }
-        public PartialViewResult IndexGrid()
+        public PartialViewResult IndexGrid(string name, string code)
         {
-            var models = _facultyRepository.GetAll()
+            name = (name ?? "").Trim().ToLower();
+            code = (code ?? "").Trim().ToLower();
+            var models = _facultyRepository.GetAll().Where(x =>
+                (name =="" || x.Name.Contains(name))
+                && (code == "" || x.Code.Contains(code)))
                 .AsNoTracking()
                 .OrderBy(x => x.CreatedDate)
                 .Select(x => new FacultyViewModel

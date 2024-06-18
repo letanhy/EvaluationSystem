@@ -1,28 +1,101 @@
-﻿@model IEnumerable<StudentViewModel>
+﻿@model StudentViewModel
 @using EvaluationSystem.Models;
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-<h5 class="card-header">Danh sách sinh viên</h5>
-<div style="margin-bottom: 20px; margin-left: 20px">
-    <button type="button" class="btn btn-sm btn-primary"
-            onclick="OpenPopup('@Url.Action("Create", "Student", new{ IsPopup = true })', 'Thêm sinh viên','s', 500)">
-        Thêm sinh viên
-    </button>
-    <button type="button" class="btn btn-sm btn-secondary">Secondary</button>
+<h4>Danh sách sinh viên</h4>
+<div class="card mb-3">
+    <div class="card-body">
+        <div class="row mb-2">
+            <div class="col-md-2 px-1">
+                @Html.TextBox("fullName", "", new { @class = "form-control", @placeholder = "Tên sinh viên" })
+            </div>
+            <div class="col-md-2 px-1">
+                @Html.TextBox("code", "", new { @class = "form-control", @placeholder = "Mã số sinh viên" })
+            </div>
+            <div class="col-md-2 px-1">
+                @Html.DropDownList("classId", Model.ClassList, new { @class = "form-control" })
+            </div>
+            <div class="col-md-2 px-1">
+                @Html.DropDownList("majorsId", Model.MajorsList, new { @class = "form-control" })
+            </div>
+            <div class="col-md-2 px-1">
+                @Html.DropDownList("facultyId", Model.FacultyList, new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+    <div style="margin-bottom: 20px; margin-left: 20px">
+        <button type="button" class="btn btn-sm btn-primary"
+                onclick="OpenPopup('@Url.Action("Create", "Student", new{ IsPopup = true })', 'Thêm sinh viên','s', 500)">
+            <i class="bx bx-plus-circle"></i>
+            Thêm sinh viên
+        </button>
+        @*<button type="button" class="btn btn-sm btn-secondary">Secondary</button>*@
+    </div>
 </div>
-<div class="table-responsive text-nowrap">
-    @Html.AjaxGrid(Url.Action("IndexGrid"))
+<div class="card mb-3">
+    <div class="table-responsive text-nowrap">
+        @Html.AjaxGrid(Url.Action("IndexGrid"))
+    </div>
 </div>
 
 @section ScriptBottom {
     <script type="text/javascript">
+        document.getElementById('fullName').addEventListener('input', function () {
+            search('fullName', this.value);
+        });
+        document.getElementById('code').addEventListener('input', function () {
+            search('code', this.value);
+        });
+        document.getElementById('classId').addEventListener('change', function () {
+            search('classId', this.value);
+        });
+        document.getElementById('majorsId').addEventListener('change', function () {
+            search('majorsId', this.value);
+        });
+        document.getElementById('facultyId').addEventListener('change', function () {
+            search('facultyId', this.value);
+        });
         $(document).ready(function () {
             new MvcGrid(document.querySelector('.mvc-grid'));
         });
+
+        $("#facultyId").on("change", function () {
+            appendMajorsList(this.value);
+            var grid = new MvcGrid(document.querySelector('.mvc-grid'));
+            grid.query.set('facultyId', this.value);
+            grid.query.set('majorsId', null);
+            grid.query.set('page', 1);
+            grid.reload();
+        });
+
+        function appendMajorsList(facultyId) {
+             $.ajax({
+                 type: "GET",
+                 url: "@Url.Action("GetMajorsByFacultyId", "Student")",
+                 data: {
+                     facultyId: facultyId
+                 },
+                 success: function (res) {
+                     var majorsIdSelector = $("#majorsId");
+                     majorsIdSelector.empty();
+                     if (res.isSuccess == true) {
+                         res.data.forEach(function (majors) {
+                             majorsIdSelector.append(`<option value="${majors.Value}">${majors.Text}</option>`);
+                         });
+                     }
+                     //stageIdSelector.trigger('chosen:updated');
+                 }
+             });
+         }
+
+        function search(key, value) {
+            var grid = new MvcGrid(document.querySelector('.mvc-grid'));
+            grid.query.set(key, value);
+            grid.reload();
+        }
 
         function ClosePopupAndReloadGrid() {
             ClosePopup();
@@ -45,8 +118,14 @@
 
         function ReloadGrid() {
             var grid = new MvcGrid(document.querySelector('.mvc-grid'));
+            grid.query.set("fullName", $("#FullName").val());
+            grid.query.set("code", $("#Code").val());
+            grid.query.set("classId", $("#ClassId").val());
+            grid.query.set("majorsId", $("#MajorsId").val());
+            grid.query.set("facultyId", $("#FacultyId").val());
             grid.reload();
         }
+
     </script>
 }
 

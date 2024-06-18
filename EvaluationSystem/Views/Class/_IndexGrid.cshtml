@@ -28,7 +28,7 @@
 @helper GridColumnAction(int id)
 {
     <a class="text-info" href="@Url.Action("Details", "Class", new { Id = id })">
-       <i class='bx bx-info-circle' style="font-size: 25px"></i>
+        <i class='bx bx-info-circle' style="font-size: 25px"></i>
     </a>
     <a href="javascript:void(0)" class="text-warning" onclick="OpenPopup('@Url.Action("Edit", "Class", new{ IsPopup = true,  Id = id})', 'Cập nhật','s', 500)">
         <i class="bx bx-edit-alt me-1" style="font-size: 25px"></i>

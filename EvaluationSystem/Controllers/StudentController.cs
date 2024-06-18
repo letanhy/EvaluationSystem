@@ -15,22 +15,46 @@ namespace EvaluationSystem.Controllers
     {
         IStudentRepository _studentRepository;
         IClassRepository _classRepository;
+        IMajorsRepository _majorsRepository;
+        IFacultyRepository _facultyRepository;
 
-        public StudentController(IStudentRepository studentRepository, IClassRepository classRepository)
+        public StudentController(IStudentRepository studentRepository
+            , IClassRepository classRepository, IFacultyRepository facultyRepository, IMajorsRepository majorsRepository)
         {
             _studentRepository = studentRepository;
             _classRepository = classRepository;
+            _facultyRepository = facultyRepository;
+            _majorsRepository = majorsRepository;
         }
         // GET: Student
         public ActionResult Index()
         {
-            
-            return View();
+            var model = new StudentViewModel();
+            var classGroupList = _classRepository.ListAll().OrderByDescending(x => x.CreatedDate);
+            model.ClassList = GetSelectList(classGroupList, "Id", "Name", "", "--Lớp--");
+            var majorsGroupList = _majorsRepository.GetAll().OrderByDescending(x => x.CreatedDate);
+            model.MajorsList = GetSelectList(majorsGroupList, "Id", "Name", "", "--Chuyên ngành--");
+            var facultyGroupList = _facultyRepository.GetAll().OrderByDescending(x => x.CreatedDate);
+            model.FacultyList = GetSelectList(facultyGroupList, "Id", "Name", "", "--Khoa--");
+            return View(model);
         }
-        public PartialViewResult IndexGrid()
+        public PartialViewResult IndexGrid(string fullName, string code, int? classId, int? majorsId, int? facultyId)
         {
-            var models = _studentRepository.GetAll()
-                .Include(x => x.Class.Majors.Faculty)
+            classId = classId ?? 0;
+            majorsId = majorsId ?? 0;
+            fullName = (fullName ?? "").Trim().ToLower();
+            code = (code ?? "").Trim().ToLower();
+            facultyId = facultyId ?? 0;
+
+            var students = _studentRepository.GetAll().Where(x =>
+                (classId == 0 || x.ClassId == classId)
+                && (majorsId == 0 || x.Class.MajorsId == majorsId)
+                && (facultyId == 0 || x.Class.Majors.FacultyId == facultyId)
+                && (fullName == "" || x.FullName.Contains(fullName))
+                && (code == "" || x.Code.Contains(code))
+                );
+
+            var models = students
                 .AsNoTracking()
                 .OrderByDescending(x => x.CreatedDate)
                 .Select(x => new StudentViewModel
@@ -46,27 +70,9 @@ namespace EvaluationSystem.Controllers
                 MajorsId = x.Class.MajorsId,
                 MajorsName = x.Class.Majors.Name,
                 FacultyId = x.Class.Majors.FacultyId,
-                FacultyName = x.Class.Majors.Name,
+                FacultyName = x.Class.Majors.Faculty.Name,
             });
             return PartialView("_IndexGrid", models);
-        }
-        public ActionResult Search(string searchTerm)
-        {
-            var students = _studentRepository.SearchStudents(searchTerm);
-            var models = students.Select(x => new StudentViewModel
-            {
-                Id = x.Id,
-                FullName = x.FullName,
-                Age = x.Age,
-                Code = x.Code,
-                ClassId = x.ClassId,
-                ClassName = x.Class.Name,
-                ClassCode = x.Class.Code,
-                MajorsId = x.Class.MajorsId,
-                MajorsName = x.Class.Majors.Name,
-                MajorsCode = x.Class.Majors.Code,
-            }).ToList();
-            return View("Index", models);
         }
         public ActionResult Details(int Id)
         {
@@ -97,6 +103,18 @@ namespace EvaluationSystem.Controllers
 
             GetData(model);
             return View(model);
+        }
+        protected SelectList GetSelectList(IQueryable<object> list, string value, string text, object selected = null, string NullOrNameEmpty = null)
+        {
+            var selectList = new SelectList(list, value, text).ToList();
+            if (NullOrNameEmpty != null)
+            {
+                SelectListItem itemEmpty = new SelectListItem();
+                itemEmpty.Text = NullOrNameEmpty;
+                itemEmpty.Value = null;
+                selectList.Insert(0, itemEmpty);
+            }
+            return new SelectList(selectList, "Value", "Text", selected);
         }
         public void GetData(StudentViewModel model)
         {
@@ -203,6 +221,18 @@ namespace EvaluationSystem.Controllers
                 return Json(new { message = "Xóa thành công", type = "success" }, JsonRequestBehavior.AllowGet);
             }
             return Json(new { message = "Xóa không thành công", type = "error" }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult GetMajorsByFacultyId(int? facultyId)
+        {
+            var model = new StudentViewModel();
+            var majorsGroupList = _majorsRepository.GetAll()
+                .Where(x => (facultyId == 0 || x.FacultyId == facultyId))
+                .OrderByDescending(x => x.CreatedDate);
+            model.MajorsList = GetSelectList(majorsGroupList, "Id", "Name", "", "--Tất cả--");
+            var majorsList = model.MajorsList;
+            return Json(new { isSuccess = true, data = majorsList }, JsonRequestBehavior.AllowGet);
         }
     }
 }

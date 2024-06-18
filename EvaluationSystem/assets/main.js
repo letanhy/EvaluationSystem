@@ -49,3 +49,31 @@ function ClosePopupAndReloadPage() {
 function ShowLoading() {
     $(".img-loading-wrap").show();
 }
+
+function ClickEventHandler(isAppend, url, parent, formData, callbackFunction) {
+    if (url != "") {
+        ShowLoading();
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: JSON.stringify(formData),
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                if (isAppend)
+                    $(parent).append(data);
+                else
+                    $(parent).prepend(data);
+
+                HideLoading();
+                if (typeof callbackFunction == 'function') {
+                    callbackFunction.call();
+                }
+            },
+            error: function (data) {
+                console.log(data);
+                HideLoading();
+            }
+        });
+    }
+    return false;
+}

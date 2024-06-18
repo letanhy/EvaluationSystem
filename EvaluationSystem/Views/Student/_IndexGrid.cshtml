@@ -8,7 +8,7 @@
         columns.Add(model => model.FullName);
         columns.Add(model => model.Code);
         columns.Add(model => model.Age);
-        columns.Add(model => model.CreatedDate);
+        columns.Add(model => model.CreatedDate).Formatted("{0: dd/MM/yyyy }");
         columns.Add(model => model.ClassName);
         columns.Add(model => model.MajorsName);
         columns.Add(model => model.FacultyName);

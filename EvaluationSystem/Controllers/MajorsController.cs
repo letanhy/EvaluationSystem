@@ -3,6 +3,7 @@ using EvaluationSystem.Data.Interfaces;
 using EvaluationSystem.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -21,15 +22,28 @@ namespace EvaluationSystem.Controllers
         // GET: Majors
         public ActionResult Index()
         {
-            
-            return View();
+            var model = new MajorsViewModel();
+            GetData(model);
+            return View(model);
         }
-        public PartialViewResult IndexGrid()
+        public PartialViewResult IndexGrid(string name, string code, int? facultyId)
         {
-            var majorsListDb = _majorsRepository.GetAll();
+            name = (name ?? "").Trim().ToLower();
+            code = (code ?? "").Trim().ToLower();
+            facultyId = facultyId ?? 0;
 
-            var models = majorsListDb.Select(x => new MajorsViewModel
-            {
+            var models = _majorsRepository.GetAll()
+                .Where(x =>
+                (facultyId == 0 || x.FacultyId == facultyId)
+                && (name == "" || x.Name.Contains(name))
+                && (code == "" || x.Code.Contains(code))
+                && (x.IsDeleted != true)
+                )
+                .Include(x => x.Faculty)
+                .AsNoTracking()
+                .OrderByDescending(x => x.CreatedDate)
+                .Select(x => new MajorsViewModel
+                {
                 Id = x.Id,
                 Name = x.Name,
                 Code = x.Code,
@@ -59,11 +73,11 @@ namespace EvaluationSystem.Controllers
         }
         public void GetData(MajorsViewModel model)
         {
-            var facultyListDb = _facultyRepository.GetAll();
+            var facultyListDb = _facultyRepository.GetAll().OrderByDescending(x => x.CreatedDate);
             var list = new List<SelectListItem>();
             list.Add(new SelectListItem()
             {
-                Text = "-- Chọn --",
+                Text = "-- Chọn khoa --",
                 Value = null,
             });
             foreach (var item in facultyListDb)
