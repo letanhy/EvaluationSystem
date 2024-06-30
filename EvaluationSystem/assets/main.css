@@ -1,4 +1,46 @@
-﻿.img-loading-wrap {
+﻿
+
+/***************************** popup modal ******************************/
+.text-right {
+    text-align: right
+}
+
+#modalCenter .modal-header {
+    color: #fff;
+    background-color: #696cff;
+    padding: 0.5rem 1.5rem 0.25rem !important;
+}
+
+.modal .modal-header .btn-close {
+    margin-top: 0 !important;
+    transform: translate(23px, -22px) !important;
+}
+
+#modalCenter .modal-header .modal-title {
+    font-size: 16px;
+    color: #fff;
+}
+
+#modalCenter iframe {
+    width: 100%;
+    height: 100%;
+    border: 1px solid;
+    border-color: #696cff;
+}
+#modalCenter {
+}
+
+#modalCenter .modal-body {
+    padding: 0px !important;
+}
+
+.select2-container {
+    width: 100% !important;
+}
+
+/***************************** loading ******************************/
+
+.img-loading-wrap {
     background: rgba(255,255,255,0.5);
     width: 100%;
     height: 100%;

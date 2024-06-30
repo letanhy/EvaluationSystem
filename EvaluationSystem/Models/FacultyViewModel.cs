@@ -21,6 +21,10 @@ namespace EvaluationSystem.Models
         [Display(Name = "Ngày cập nhật")]
         public DateTime? ModifiedDate { get; set; }
         public bool? IsDeleted { get; set; }
+        public double? FacultySize { get; set; }
+
+        public List<StudentViewModel> StudentsList { get; set; }
+
 
     }
 }

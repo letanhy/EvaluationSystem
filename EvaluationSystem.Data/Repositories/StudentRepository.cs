@@ -31,7 +31,7 @@ namespace EvaluationSystem.Data.Repositories
 
         public void DeleteRs(int Id)
         {
-            var student = context.Students.SingleOrDefault(x => x.Id == Id);
+            var student = context.Students.FirstOrDefault(x => x.Id == Id);
             student.IsDeleted = true;
             context.Entry(student).State = EntityState.Modified;
             context.SaveChanges();
@@ -44,7 +44,7 @@ namespace EvaluationSystem.Data.Repositories
 
         public IQueryable<Student> GetAll()
         {
-            return context.Students.Include(x => x.Class.Majors.Faculty);
+            return context.Students.Include(x => x.Class.Majors.Faculty).Where(x=>x.IsDeleted != true);
         }
 
         public IEnumerable<Student> ListAllInfo()
@@ -82,6 +82,11 @@ namespace EvaluationSystem.Data.Repositories
             return context.Students
                 .Where(x => (string.IsNullOrEmpty(searchTerm) || x.FullName.Contains(searchTerm) || x.Code.Contains(searchTerm))
                 && x.IsDeleted != true);
+        }
+
+        public IQueryable<Student> GetStudentbyClassId(int classId)
+        {
+            return context.Students.Where((x) => x.ClassId == classId && x.IsDeleted != true);
         }
     }
 }

@@ -9,10 +9,10 @@ namespace EvaluationSystem.Data.Interfaces
 {
     public interface ICategoryRepository
     {
-        IEnumerable<Category> ListAll();
-        IEnumerable<Category> ListAllBySemester();
-        IEnumerable<Category> ListAllByCourse();
-        IEnumerable<Category> ListAllInfo();
+        IQueryable<Category> GetAll();
+        IQueryable<Category> GetAllBySemester();
+        IQueryable<Category> GetAllByCourse();
+        IQueryable<Category> GetAllInfo();
         Category GetById(int Id);
         Category GetInfoById(int Id);
         int Add(Category category);

@@ -42,15 +42,15 @@ namespace EvaluationSystem.Data.Repositories
         }
         public IQueryable<Class> ListAll()
         {
-            return context.Classes;
+            return context.Classes.Include(x => x.Majors.Faculty).Where(x => x.IsDeleted != true);
         }
         public IQueryable<Class> ListAllInfo()
         {
             return context.Classes.Include(x=>x.Majors).Where(x => x.IsDeleted != true);
         }
-        public IEnumerable<Class> ListAllByMajors(int MajorsId)
+        public IQueryable<Class> GetClassByMajors(int majorsId)
         {
-            return context.Classes.Where(x => x.IsDeleted != true && x.MajorsId == MajorsId);
+            return context.Classes.Include(x => x.Majors).Where(x => x.IsDeleted != true && x.MajorsId == majorsId);
         }
         public Class GetById(int Id)
         {
@@ -59,7 +59,7 @@ namespace EvaluationSystem.Data.Repositories
         }
         public Class GetInfoById(int Id)
         {
-            var model = context.Classes.Include(x=>x.Majors).SingleOrDefault(x => x.Id == Id);
+            var model = context.Classes.Include(x=>x.Majors.Faculty).SingleOrDefault(x => x.Id == Id);
             return model;
         }
 

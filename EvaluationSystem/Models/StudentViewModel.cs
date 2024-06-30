@@ -19,6 +19,9 @@ namespace EvaluationSystem.Models
         [Required(ErrorMessage = "Mã sinh viên")]
         [Display(Name = "MSSV")]
         public string Code { get; set; }
+        [Required(ErrorMessage = "Ngày sinh")]
+        [Display(Name = "Ngày sinh")]
+        public DateTime? BirthDate { get; set; }
         [Display(Name = "Ngày tạo")]
         public DateTime? CreatedDate { get; set; }
         [Display(Name = "Ngày cập nhật")]
@@ -40,12 +43,12 @@ namespace EvaluationSystem.Models
         public SelectList ClassList { get; set; }
         public SelectList MajorsList { get; set; }
         public SelectList FacultyList { get; set; }
-
         public int? FacultyId { get; set; }
         [Display(Name = "Khoa")]
         public string FacultyName { get; set; }
         [Display(Name = "Mã khoa")]
         public string FacultyCode { get; set; }
+
 
     }
 }

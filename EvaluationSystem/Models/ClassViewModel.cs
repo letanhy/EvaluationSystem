@@ -25,11 +25,19 @@ namespace EvaluationSystem.Models
         public int? MajorsId { get; set; }
         [Display(Name = "Tên Ngành")]
         public string MajorsName { get; set; }
-        [Display(Name = "Mã ngành")]
+        [Display(Name = "Tên ngành")]
         public string MajorsCode { get; set; }
+        [Display(Name = "Mã khoa")]
+        public int? FacultyId { get; set; }
+        [Display(Name = "Mã ngành")]
+        public string FacultyName { get; set; }
+        [Display(Name = "Mã ngành")]
+        public string FacultyCode { get; set; }
         public SelectList MajorsList { get; set; } 
-        public SelectList FacultyList { get; set; } 
+        public SelectList FacultyList { get; set; }
+        [Display(Name = "Sỉ số lớp")]
         public int? CountStudent { get; set; }
         public List<StudentViewModel> StudentsList { get; set; }
+        public double? ClassSize { get; set; }
     }
 }

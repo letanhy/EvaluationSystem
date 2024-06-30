@@ -11,7 +11,7 @@
         columns.Add(model => model.ModifiedDate).Formatted("{0:HH:mm dd/MM/yyyy }");
         columns.Add().Titled("Hoạt động").Encoded(false).RenderedAs(x => GridColumnAction(x.Id));
     })
-    .Empty("No data found")
+    .Empty("Chưa có khoa")
     .Pageable(pager =>
     {
         pager.PageSizes = new Dictionary<Int32, String>
@@ -26,9 +26,6 @@
 
 @helper GridColumnAction(int id)
 {
-    <a class="text-info" href="@Url.Action("Details", "Faculty", new { Id = id })">
-        <i class='bx bx-info-circle' style="font-size: 25px"></i>
-    </a>
     <a href="javascript:void(0)" class="text-warning" onclick="OpenPopup('@Url.Action("Edit", "Faculty", new{ IsPopup = true,  Id = id})', 'Cập nhật','s', 500)">
         <i class="bx bx-edit-alt me-1" style="font-size: 25px"></i>
     </a>

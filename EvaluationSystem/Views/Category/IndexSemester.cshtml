@@ -1,48 +1,90 @@
-﻿@model IEnumerable<CategoryViewModel>
+﻿@model CategoryViewModel
 @using EvaluationSystem.Models;
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    int i = 0;
+    var group = ViewBag.Group as string;
 }
-<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Tables /</span> Basic Tables</h4>
 
-<!-- Basic Bootstrap Table -->
-<div class="card">
-    <h5 class="card-header">Danh sách học kỳ</h5>
-    <div class="table-responsive text-nowrap">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>STT</th>
-                    <th>Tên học kỳ</th>
-                    <th>Mã học kỳ</th>
-                    <th>Ngày tạo</th>
-                    <th>Ngày cập nhật</th>
-                    <th></th>
-
-                </tr>
-            </thead>
-            <tbody class="table-border-bottom-0">
-                @foreach (var item in Model)
-                {
-                    i = i + 1;
-                    <tr>
-                        <td>@i</td>
-                        <td>@item.Name</td>
-                        <td>@item.Code</td>
-                        <td>@item.CreatedDate</td>
-                        <td>@(item.ModifiedDate)</td>
-                        <td>
-                            <a href="@Url.Action("EditSemester","Category", new {@item.Id})">Chỉnh sửa</a>
-                            |
-                            <a href="@Url.Action("DeleteSemester","Category", new {@item.Id})">Xóa</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+<h4>Danh sách khóa học</h4>
+<div class="card mb-3">
+    @*<div class="card-body">
+            <div class="row mb-2">
+                <div class="col-md-2 px-1">
+                    @Html.TextBox("fullName", "", new { @class = "form-control", @placeholder = "Tên sinh viên" })
+                </div>
+                <div class="col-md-2 px-1">
+                    @Html.TextBox("code", "", new { @class = "form-control", @placeholder = "Mã số sinh viên" })
+                </div>
+                <div class="col-md-2 px-1">
+                    @Html.DropDownList("classId", Model.ClassList, new { @class = "form-control" })
+                </div>
+                <div class="col-md-2 px-1">
+                    @Html.DropDownList("majorsId", Model.MajorsList, new { @class = "form-control" })
+                </div>
+                <div class="col-md-2 px-1">
+                    @Html.DropDownList("facultyId", Model.FacultyList, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>*@
+    <div style="margin-bottom: 20px; margin-left: 20px">
+        <button type="button" class="btn btn-sm btn-primary"
+                onclick="OpenPopup('@Url.Action("Create", "Category", new{ IsPopup = true })', 'Thêm học kỳ','s', 500)">
+            <i class="bx bx-plus-circle"></i>
+            Thêm học kì
+        </button>
+        @*<button type="button" class="btn btn-sm btn-secondary">Secondary</button>*@
     </div>
 </div>
+<div class="card mb-3">
+    <div class="table-responsive text-nowrap" id="grid-container">
+        @Html.AjaxGrid(Url.Action("IndexGrid", new { group = group }))
+    </div>
+</div>
+
+
+@section ScriptBottom {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            new MvcGrid(document.querySelector('.mvc-grid'));
+        });
+
+        $(document).ready(function () {
+            var group = '@group';
+            $.ajax({
+                url: '@Url.Action("IndexGrid", new { group = group })',
+                type: 'GET',
+                success: function (data) {
+                    $('#grid-container').html(data);
+                }
+            });
+        });
+
+        function ClosePopupAndReloadGrid() {
+            ClosePopup();
+            ReloadGrid();
+        }
+
+        function DeleteItem(Id) {
+            if (confirm('Bạn có chắc muốn xóa sinh viên?')) {
+                $.ajax({
+                    url: '@Url.Action("Delete")',
+                    type: "POST",
+                    data: { Id: Id },
+                    success: function (res) {
+                        alert(res.message, res.type)
+                        ReloadGrid();
+                    }
+                });
+            }
+        }
+
+        function ReloadGrid() {
+            var grid = new MvcGrid(document.querySelector('.mvc-grid'));
+            grid.reload();
+        }
+
+    </script>
+}
 
 

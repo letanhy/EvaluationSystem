@@ -40,11 +40,11 @@ namespace EvaluationSystem.Data.Repositories
             context.Entry(model).State = EntityState.Modified;
             context.SaveChanges();
         }
-        public IEnumerable<Category> ListAll()
+        public IQueryable<Category> GetAll()
         {
             return context.Category;
         }
-        public IEnumerable<Category> ListAllInfo()
+        public IQueryable<Category> GetAllInfo()
         {
             return context.Category.Where(x => x.IsDeleted != true);
         }
@@ -61,12 +61,12 @@ namespace EvaluationSystem.Data.Repositories
             return model;
         }
 
-        public IEnumerable<Category> ListAllBySemester()
+        public IQueryable<Category> GetAllBySemester()
         {
             return context.Category.Where(x => x.IsDeleted != true && x.Group == "Hocky");
         }
 
-        public IEnumerable<Category> ListAllByCourse()
+        public IQueryable<Category> GetAllByCourse()
         {
             return context.Category.Where(x => x.IsDeleted != true && x.Group == "Khoahoc");
         }

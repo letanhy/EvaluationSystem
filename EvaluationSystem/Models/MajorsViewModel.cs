@@ -17,9 +17,9 @@ namespace EvaluationSystem.Models
         [Display(Name = "Mã ngành")]
         [Required(ErrorMessage = "Chưa điền mã ngành")]
         public string Code { get; set; }
-        [Display(Name = "Ngày")]
+        [Display(Name = "Ngày tạo")]
         public DateTime? CreatedDate { get; set; }
-        [Display(Name = "Ngày")]
+        [Display(Name = "Ngày cập nhật")]
         public DateTime? ModifiedDate { get; set; }
         [Display(Name = "Khoa")]
         [Required(ErrorMessage = "Chưa chọn khoa cho ngành")]

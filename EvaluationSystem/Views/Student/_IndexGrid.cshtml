@@ -5,16 +5,14 @@
     .Grid(Model)
     .Build(columns =>
     {
-        columns.Add(model => model.FullName);
         columns.Add(model => model.Code);
-        columns.Add(model => model.Age);
-        columns.Add(model => model.CreatedDate).Formatted("{0: dd/MM/yyyy }");
+        columns.Add(model => model.FullName);
         columns.Add(model => model.ClassName);
-        columns.Add(model => model.MajorsName);
-        columns.Add(model => model.FacultyName);
+        columns.Add(model => model.BirthDate).Formatted("{0: dd/MM/yyyy }");
+        columns.Add(model => model.CreatedDate).Formatted("{0: dd/MM/yyyy }");
         columns.Add().Titled("Hoạt động").Encoded(false).RenderedAs(x => GridColumnAction(x.Id));
     })
-    .Empty("No data found")
+    .Empty("Không có sinh viên")
     .Pageable(pager =>
     {
         pager.PageSizes = new Dictionary<Int32, String>

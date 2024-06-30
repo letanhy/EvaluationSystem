@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using EvaluationSystem.Data.Repositories;
 using EvaluationSystem.Data.Interfaces;
 using System.Data.Entity;
+using Newtonsoft.Json;
 
 namespace EvaluationSystem.Controllers
 {
@@ -76,37 +77,45 @@ namespace EvaluationSystem.Controllers
         }
 
         // GET: Class/Details/5
-        public ActionResult Details(int Id)
+        public ActionResult Detail(int Id)
         {
             var _class = _classRepository.GetInfoById(Id);
             var model = new ClassViewModel();
             if (_class != null)
             {
+                model.Id = _class.Id;
                 model.Name = _class.Name;
                 model.Code = _class.Code;
                 model.CreatedDate = _class.CreatedDate;
+                model.MajorsId = _class.MajorsId;
                 model.MajorsName = _class.Majors?.Name;
                 model.MajorsCode = _class.Majors?.Code;
+                model.FacultyId = _class.Majors?.FacultyId;
+                model.FacultyCode = _class.Majors?.Faculty?.Code;
+                model.FacultyName = _class.Majors?.Faculty?.Name;
                 model.CountStudent = _studentRepository.CountStudent(Id);
-                model.StudentsList = _studentRepository
-                    .GetStudents(Id)
-                    .Select(x => new StudentViewModel
-                    {
-                        Id = x.Id,
-                        FullName = x.FullName,
-                        Age = x.Age,
-                        Code = x.Code,
-                        ClassId = x.ClassId,
-                        ClassName = x.Class.Name,
-                        ClassCode = x.Class.Code,
-                        MajorsId = x.Class.MajorsId,
-                        MajorsName = x.Class.Majors.Name,
-                        MajorsCode = x.Class.Majors.Code,
-                    }).ToList();
-                GetData(model);
+
                 return View(model);
             }
             return RedirectToAction("Index");
+        }
+        public PartialViewResult DetailGrid(int classId)
+        {
+            var models = _studentRepository.GetStudentbyClassId(classId)
+                .AsNoTracking()
+                .OrderByDescending(x => x.CreatedDate)
+                .Select(x => new StudentViewModel
+                {
+                    Id = x.Id,
+                    FullName = x.FullName,
+                    Code = x.Code,
+                    BirthDate = x.BirthDate,
+                    ClassName = x.Class.Name,
+                    CreatedDate = x.CreatedDate,
+                    ModifiedDate = x.ModifiedDate
+                });
+
+            return PartialView("_DetailGrid", models);
         }
 
         // GET: Class/Create
@@ -222,5 +231,6 @@ namespace EvaluationSystem.Controllers
             }
             return Json(new { message = "Xóa không thành công", type = "error" }, JsonRequestBehavior.AllowGet);
         }
+        
     }
 }
