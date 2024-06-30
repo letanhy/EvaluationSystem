@@ -5,7 +5,7 @@
 
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
     <div class="app-brand demo">
-        <a href="index.html" class="app-brand-link">
+        <a href="/" class="app-brand-link">
             <span class="app-brand-logo demo">
                 <svg width="25"
                      viewBox="0 0 25 42"
@@ -49,7 +49,7 @@
                     </g>
                 </svg>
             </span>
-            <span class="app-brand-text demo menu-text fw-bolder ms-2">Sneat</span>
+            <span class="app-brand-text demo menu-text fw-bolder ms-2">administration</span>
         </a>
 
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
@@ -61,7 +61,8 @@
 
     <ul class="menu-inner py-1">
         <!-- Dashboard -->
-        <li class="menu-item">
+        <li class="menu-item @( "/" == path
+            ? "active" :"")">
             <a href="/" class="menu-link">
                 <i class="menu-icon tf-icons bx bxs-home"></i>
                 <div data-i18n="Analytics">Trang chủ</div>
@@ -70,9 +71,10 @@
 
         <!-- Layouts -->
         <li class="menu-item @(
-            Url.Action("Create","Student") == path 
-            || Url.Action("Index","Student") == path 
-            ? "active open" 
+            Url.Action("Create","Student") == path
+            || Url.Action("Index","Student") == path
+            || Url.Action("Details","Student") == path
+            ? "active open"
             :"")">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bxs-group"></i>
@@ -80,12 +82,12 @@
             </a>
 
             <ul class="menu-sub">
-                <li class="menu-item @(Url.Action("Create","Student") == path ? "active" :"")">
+                @*<li class="menu-item @(Url.Action("Create","Student") == path ? "active" :"")">
                     <a href="@Url.Action("Create","Student")" class="menu-link">
                         <div data-i18n="Without menu">Thêm mới</div>
                     </a>
-                </li>
-                <li class="menu-item @(Url.Action("Index","Student") == path ? "active" :"")">
+                </li>*@
+                <li class="menu-item @(Url.Action("Index","Student") == path || Url.Action("Details","Student") == path ? "active" :"")">
                     <a href="@Url.Action("Index","Student")" class="menu-link">
                         <div data-i18n="Without navbar">Danh sách</div>
                     </a>
@@ -93,9 +95,10 @@
             </ul>
         </li>
         <li class="menu-item @(
-            Url.Action("Create","Class") == path 
-            || Url.Action("Index","Class") == path 
-            ? "active open" 
+            Url.Action("Create","Class") == path
+            || Url.Action("Index","Class") == path
+            || Url.Action("Details","Class") == path
+            ? "active open"
             :"")">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bxl-microsoft-teams"></i>
@@ -103,12 +106,12 @@
             </a>
 
             <ul class="menu-sub">
-                <li class="menu-item @(Url.Action("Create","Class") == path ? "active" :"")" >
+                @*<li class="menu-item @(Url.Action("Create","Class") == path ? "active" :"")" >
                     <a href="@Url.Action("Create","Class")" class="menu-link">
                         <div data-i18n="Without menu">Thêm lớp</div>
                     </a>
-                </li>
-                <li class="menu-item @(Url.Action("Index","Class") == path ? "active" :"")">
+                </li>*@
+                <li class="menu-item @(Url.Action("Index","Class") == path || Url.Action("Details","Class") == path ? "active" :"")">
                     <a href="@Url.Action("Index","Class")" class="menu-link">
                         <div data-i18n="Without navbar">Danh sách</div>
                     </a>
@@ -116,9 +119,10 @@
             </ul>
         </li>
         <li class="menu-item @(
-            Url.Action("Create","Majors") == path 
-            || Url.Action("Index","Majors") == path 
-            ? "active open" 
+            Url.Action("Create","Majors") == path
+            || Url.Action("Index","Majors") == path
+            || Url.Action("Details","Majors") == path
+            ? "active open"
             :"")">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bxs-layer"></i>
@@ -126,12 +130,12 @@
             </a>
 
             <ul class="menu-sub">
-                <li class="menu-item @(Url.Action("Create","Majors") == path ? "active" : "")">
+                @*<li class="menu-item @(Url.Action("Create","Majors") == path ? "active" : "")">
                     <a href="@Url.Action("Create","Majors")" class="menu-link">
                         <div data-i18n="Without menu">Thêm mới</div>
                     </a>
-                </li>
-                <li class="menu-item @(Url.Action("Index","Majors") == path ? "active" : "")">
+                </li>*@
+                <li class="menu-item @(Url.Action("Index","Majors") == path || Url.Action("Details","Majors") == path ? "active" : "")">
                     <a href="@Url.Action("Index","Majors")" class="menu-link">
                         <div data-i18n="Without navbar">Danh sách</div>
                     </a>
@@ -139,22 +143,23 @@
             </ul>
         </li>
         <li class="menu-item @(
-            Url.Action("Create","Faculty") == path 
-            || Url.Action("Index","Faculty") == path 
-            ? "active open" 
+            Url.Action("Create","Faculty") == path
+            || Url.Action("Index","Faculty") == path
+            || Url.Action("Details","Faculty") == path
+            ? "active open"
             :"")">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bxs-server"></i>
+                <i class="menu-icon tf-icons bx bx-git-branch"></i>
                 <div data-i18n="Layouts">Khoa</div>
             </a>
 
             <ul class="menu-sub">
-                <li class="menu-item @(Url.Action("Create","Faculty") == path ? "active" : "")">
+                @*<li class="menu-item @(Url.Action("Create","Faculty") == path ? "active" : "")">
                     <a href="@Url.Action("Create","Faculty")" class="menu-link">
                         <div data-i18n="Without menu">Thêm mới</div>
                     </a>
-                </li>
-                <li class="menu-item @(Url.Action("Index","Faculty") == path ? "active" : "")">
+                </li>*@
+                <li class="menu-item @(Url.Action("Index","Faculty") == path || Url.Action("Details","Faculty") == path ? "active" : "")">
                     <a href="@Url.Action("Index","Faculty")" class="menu-link">
                         <div data-i18n="Without navbar">Danh sách</div>
                     </a>
@@ -180,5 +185,63 @@
                 </li>
             </ul>
         </li>*@
+
+        <li class="menu-item ">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bxs-collection"></i>
+                <div data-i18n="Layouts">Học kỳ</div>
+            </a>
+
+            <ul class="menu-sub">
+                @*<li class="menu-item @(Url.Action("Create","Faculty") == path ? "active" : "")">
+                    <a href="@Url.Action("Create","Faculty")" class="menu-link">
+                        <div data-i18n="Without menu">Thêm mới</div>
+                    </a>
+                </li>*@
+                <li class="menu-item">
+                    <a href="@Url.Action("Index","ErrorPage")" class="menu-link">
+                        <div data-i18n="Without navbar">(Coming Soon)</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="menu-item ">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bxs-food-menu"></i>
+                <div data-i18n="Layouts">Khóa học</div>
+            </a>
+
+            <ul class="menu-sub">
+                @*<li class="menu-item @(Url.Action("Create","Faculty") == path ? "active" : "")">
+                    <a href="@Url.Action("Create","Faculty")" class="menu-link">
+                        <div data-i18n="Without menu">Thêm mới</div>
+                    </a>
+                </li>*@
+                <li class="menu-item">
+                    <a href="@Url.Action("Index","ErrorPage")" class="menu-link">
+                        <div data-i18n="Without navbar">(Coming Soon)</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="menu-item ">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bxs-pencil"></i>
+                <div data-i18n="Layouts">Kế hoạch chấm điểm</div>
+            </a>
+
+            <ul class="menu-sub">
+                @*<li class="menu-item @(Url.Action("Create","Faculty") == path ? "active" : "")">
+                    <a href="@Url.Action("Create","Faculty")" class="menu-link">
+                        <div data-i18n="Without menu">Thêm mới</div>
+                    </a>
+                </li>*@
+                <li class="menu-item">
+                    <a href="@Url.Action("Index","ErrorPage")" class="menu-link">
+                        <div data-i18n="Without navbar">(Coming Soon)</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
     </ul>
 </aside>

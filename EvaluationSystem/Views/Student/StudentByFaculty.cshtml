@@ -1,0 +1,48 @@
+﻿<canvas id="canvas" style="display: block; width: 100%; height: 100%;" data-json="@ViewBag.JsonData"></canvas>
+<script>
+    $(document).ready(function () {
+        InitBarChartJs('canvas');
+    })
+    function InitBarChartJs(selector) {
+        $(selector).each(function () {
+            $input = $(this);
+            var ctx = document.getElementById($input.attr('id')).getContext('2d');
+            var data = $input.data('json');
+            console.log(data)
+            if (data != null && data != '') {
+
+                var myPieChart = new Chart(ctx, {
+                    type: 'horizontalBar',
+                    data: data,
+                    options: {
+                        responsive: true,
+                        legend: {
+                            position: 'top',
+                        },
+                        animation: {
+                            duration: 2000,
+                        },
+                        tooltips: {
+                            enabled: true,
+                            mode: 'single',
+                            callbacks: {
+                                label: function (tooltipItems, data) {
+                                    return data.datasets[tooltipItems.datasetIndex].label + ": " + Number(tooltipItems.xLabel);
+                                }
+                            }
+                        },
+                        scales: {
+                            xAxes: [{
+                                stacked: true,
+                            }],
+                            yAxes: [{
+                                stacked: true,
+                            }]
+                        }
+                    }
+                });
+            }
+        });
+
+    }
+</script>

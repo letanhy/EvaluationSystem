@@ -11,7 +11,7 @@
         columns.Add(model => model.FacultyName);
         columns.Add().Titled("Hoạt động").Encoded(false).RenderedAs(x => GridColumnAction(x.Id));
     })
-    .Empty("No data found")
+    .Empty("Không có ngành")
     .Pageable(pager =>
     {
         pager.PageSizes = new Dictionary<Int32, String>

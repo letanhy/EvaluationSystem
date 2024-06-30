@@ -1,0 +1,38 @@
+﻿
+@model IQueryable<ClassViewModel>
+@using EvaluationSystem.Models
+
+@(Html
+    .Grid(Model)
+    .Build(columns =>
+    {
+        columns.Add(model => model.Name);
+        columns.Add(model => model.Code);
+        columns.Add(model => model.CreatedDate).Formatted("{0:HH:mm dd/MM/yyyy }");
+        columns.Add().Titled("Hoạt động").Encoded(false).RenderedAs(x => GridColumnAction(x.Id));
+    })
+    .Empty("Không có lớp học cho ngành")
+    .Pageable(pager =>
+    {
+        pager.PageSizes = new Dictionary<Int32, String>
+            {{ 10, "10" },{ 15, "15" }, { 20, "20" }, { 50, "50" } };
+        pager.ShowPageSizes = true;
+        pager.PagesToDisplay = 5;
+        pager.RowsPerPage = 10;
+    })
+    .Sortable()
+)
+
+
+@helper GridColumnAction(int id)
+{
+    <a class="text-info" href="@Url.Action("Detail", "Class", new { Id = id })">
+        <i class='bx bx-info-circle' style="font-size: 25px"></i>
+    </a>
+    <a href="javascript:void(0)" class="text-warning" onclick="OpenPopup('@Url.Action("Edit", "Class", new{ IsPopup = true,  Id = id})', 'Cập nhật','s', 500)">
+        <i class="bx bx-edit-alt me-1" style="font-size: 25px"></i>
+    </a>
+    <a href="javascript:void(0)" class="text-danger" onclick="DeleteItem(@id)">
+        <i class="bx bx-trash me-1" style="font-size: 25px"></i>
+    </a>
+}

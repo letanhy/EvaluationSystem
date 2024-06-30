@@ -1,0 +1,140 @@
+﻿<canvas id="product-order-chart"></canvas>
+
+<script type="text/javascript">
+    function createNewDatasetService(arrayData, label, borderColorValue, borderWidth) {
+        var objectDataset = {
+            label: label,
+            backgroundColor: [],
+            borderColor: borderColorValue,
+            borderWidth: borderWidth,
+            data: []
+        };
+
+        var arrBGColor = Object.keys(window.chartColors).map(function (key, index) {
+            return window.chartColors[key];
+        });
+
+        for (var i in arrayData) {
+            objectDataset.backgroundColor.push(colorRender(arrBGColor[i]).alpha(0.8).rgbString());
+            objectDataset.data.push(arrayData[i]);
+        }
+
+        return objectDataset;
+    };
+
+    var colorRender = Chart.helpers.color;
+
+    var responseDataStudent = [];
+
+    @if(!string.IsNullOrEmpty(ViewBag.json))
+    {
+        @Html.Raw("responseDataStudent = " + ViewBag.json + ";");
+    }
+
+    //nếu không có dữ liệu thì tạo dữ liệu rỗng
+    if (responseDataStudent.length == 0) {
+        responseDataStudent.push({ label: 'Chưa có dữ liệu', data: 100 });
+    }
+
+    var totalDataService = 0;
+    var arrayLabelService = [];
+    var dataPushToDatasetService = [];
+
+    for (var i in responseDataStudent) {
+        totalDataService += responseDataStudent[i].data;
+    }
+
+    for (var i in responseDataStudent) {
+        var percent = parseFloat((responseDataStudent[i].data / totalDataService) * 100).toFixed(2);
+        arrayLabelService.push(responseDataStudent[i].label + ' (' + percent + '%' + ')');
+        dataPushToDatasetService.push(responseDataStudent[i].data);
+    }
+
+    var arrayDatasetService = [];
+    var newDatasetService = createNewDatasetService(dataPushToDatasetService, 'Thống kê sinh viên theo ngành học', window.chartColors.blue, 0);
+    arrayDatasetService.push(newDatasetService);
+
+    var pieChartDataService = {
+        labels: arrayLabelService,
+        datasets: []
+    };
+
+    $(document).ready(function () {
+        //Chart.defaults.global.hover.mode = 'nearest';
+        var ctx = document.getElementById("product-order-chart").getContext("2d");
+
+        //legend: là các chú thích theo màu
+
+        var productTop10Pie = new Chart(ctx, {
+            type: 'pie',
+            data: pieChartDataService,
+            options: {
+                responsive: true,
+                legend: {
+                    position: 'left',
+                },
+                title: {
+                    display: false,
+                    text: 'Thống kê phiếu nhận theo dịch vụ'
+                },
+                animation: {
+                    duration: 1000,
+                    enabled: true,
+                },
+                tooltips: {
+                    enabled: true,
+                    mode: 'single',
+                    callbacks: {
+                        title: function (tooltipItems, data) {
+                            return data.labels[tooltipItems[0].index];
+                        },
+                        label: function (tooltipItem, data) {
+                            var multiLabel = [];
+                            var productName = responseDataStudent[tooltipItem.index].label2;
+                            //multiLabel.push("Tên SP: " + productName.substring(0, 60));
+                            var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+                            var valueFormat = "SL sinh viên: " + Number(value).toFixed(0).toString().replace(/\d(?=(?:\d{3})+(?!\d))/g, '$&.');
+                            multiLabel.push(valueFormat);
+                            return multiLabel;
+                        }
+                    }
+                }
+            }
+        });
+
+        setTimeout(function () {
+            for (var i in arrayDatasetService) {
+                pieChartDataService.datasets.push(arrayDatasetService[i]);
+            }
+            productTop10Pie.update();
+            //console.log('updated')
+        }, 500);
+    });
+
+</script>
+@*<table class="table table-striped grid-table ui-responsive">
+        <thead>
+            <tr>
+                <th class="grid-header" style="width:10px;">#</th>
+                <th class="grid-header">@Wording.ProductCode</th>
+                <th class="grid-header">@Wording.ProductName</th>
+                <th class="grid-header">@Wording.Quantity </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr class="grid-row">
+                    <td class="grid-cell">
+                        @(index++)
+                    </td>
+                    <td class="grid-cell">
+                        @item.ProductCode
+                    </td>
+                    <td class="grid-cell">@item.ProductName</td>
+                    <td class="grid-cell text-right">@item.Quantity</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+*@

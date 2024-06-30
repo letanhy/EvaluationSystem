@@ -14,10 +14,17 @@ namespace EvaluationSystem.Controllers
     {
         IMajorsRepository _majorsRepository;
         IFacultyRepository _facultyRepository;
-        public MajorsController(IMajorsRepository majorsRepository, IFacultyRepository facultyRepository)
+        IClassRepository _classRepository;
+        IStudentRepository _studentRepository;
+        public MajorsController(IMajorsRepository majorsRepository
+            , IFacultyRepository facultyRepository
+            , IStudentRepository studentRepository
+            , IClassRepository classRepository)
         {
             _majorsRepository = majorsRepository;
             _facultyRepository = facultyRepository;
+            _classRepository = classRepository;
+            _studentRepository = studentRepository;
         }
         // GET: Majors
         public ActionResult Index()
@@ -60,6 +67,7 @@ namespace EvaluationSystem.Controllers
             var model = new MajorsViewModel();
             if (majors != null)
             {
+                model.Id = majors.Id;
                 model.Name = majors.Name;
                 model.Code = majors.Code;
                 model.CreatedDate = majors.CreatedDate;
@@ -70,6 +78,20 @@ namespace EvaluationSystem.Controllers
                 return View(model);
             }
             return RedirectToAction("Index");
+        }
+        public ActionResult DetailGrid(int majorsId)
+        {
+            var models = _classRepository.GetClassByMajors(majorsId)
+                .AsNoTracking()
+                .OrderByDescending(x => x.CreatedDate)
+                .Select(x => new ClassViewModel
+                {
+                    Id = x.Id,
+                    Code = x.Code,
+                    Name = x.Name,
+                    CreatedDate = x.CreatedDate,
+                });
+            return PartialView("_DetailGrid", models);
         }
         public void GetData(MajorsViewModel model)
         {

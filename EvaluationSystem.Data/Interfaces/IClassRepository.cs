@@ -11,7 +11,7 @@ namespace EvaluationSystem.Data.Interfaces
     {
         IQueryable<Class> ListAll();
         IQueryable<Class> ListAllInfo();
-        IEnumerable<Class> ListAllByMajors(int ClassId);
+        IQueryable<Class> GetClassByMajors(int ClassId);
         Class GetById(int Id);
         Class GetInfoById(int Id);
         int Add(Class _class);

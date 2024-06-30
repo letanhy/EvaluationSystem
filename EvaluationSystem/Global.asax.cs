@@ -22,7 +22,7 @@ namespace EvaluationSystem
             ioCContainer.InitializeContainer();*/
 
             IoCContainer.InitializeContainer();
-            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+            //FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
         }
